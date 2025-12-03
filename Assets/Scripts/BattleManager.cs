@@ -5,12 +5,10 @@ using UnityEngine.TextCore.Text;
 public class BattleManager : MonoBehaviour
 {
     public TeamManager TM;
+    public UIManager UIM;
     public Image[] TURNPANELIMAGES;
 
     public Characters[] BattleOrder;
-
-    public int AlliedHighestValue = 0;
-
     public int SortingNumber = 0;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -71,6 +69,19 @@ public class BattleManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        if (BattleOrder[0].Allied == true)
+        {
+            UIM.PLAYERBUTTONS[0].SetActive(true);
+            UIM.PLAYERBUTTONS[1].SetActive(true);
+            UIM.PLAYERBUTTONS[2].SetActive(true);
+        }
+        else
+        {
+            UIM.PLAYERBUTTONS[0].SetActive(false);
+            UIM.PLAYERBUTTONS[1].SetActive(false);
+            UIM.PLAYERBUTTONS[2].SetActive(false);
+        }
         
     }
 }

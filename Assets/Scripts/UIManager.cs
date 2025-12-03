@@ -1,10 +1,11 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     public TeamManager TM;
+    public BattleManager BM;
 
     public TextMeshProUGUI[] CHARSHPUI;
     public TextMeshProUGUI[] CHARSNAMEUI;
@@ -17,10 +18,14 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] public Image[] CHARSHPBARUI;
 
+    public Image[] TURNSYSTEMSPRITES;
+    public GameObject[] PLAYERBUTTONS;
+
     void Start()
     {
         InitializeCHARS();
         InitializeENEMIES();
+        InitializeTURNUI();
     }
 
     void InitializeCHARS()
@@ -39,6 +44,14 @@ public class UIManager : MonoBehaviour
         for (int i = 0; i < TM.ENEMIES.Length; i++)
         {
             ENEMIESSPRITE[i].sprite = TM.ENEMIES[i].CharacterSprite;
+        }
+    }
+
+    void InitializeTURNUI()
+    {
+        for (int i = 0; i < BM.BattleOrder.Length; i++)
+        {
+            TURNSYSTEMSPRITES[i].sprite = BM.BattleOrder[i].CharacterSprite;
         }
     }
 

@@ -19,6 +19,7 @@ MonoBehaviour:
   CharacterDefense: 1
   CharacterSpeed: 5
   CharacterSprite: {fileID: 21300000, guid: df27b8087a081c4449ca118cef981207, type: 3}
+  Allied: 1
   Status: 0
   CharacterEXP: 0
   CharacterLevel: 0

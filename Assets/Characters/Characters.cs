@@ -12,6 +12,7 @@ public class Characters : ScriptableObject
     public int CharacterDefense;
     public int CharacterSpeed;
     public Sprite CharacterSprite;
+    public bool Allied;
     public enum StatusType
     {
         None,
