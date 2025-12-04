@@ -19,9 +19,14 @@ public class UIManager : MonoBehaviour
     [SerializeField] public Image[] CHARSHPBARUI;
 
     public Image[] TURNSYSTEMSPRITES;
-    public GameObject[] PLAYERBUTTONS;
+    public GameObject PLAYERBUTTONS;
 
     void Start()
+    {
+        
+    }
+
+    public void Initialize()
     {
         InitializeCHARS();
         InitializeENEMIES();
@@ -59,7 +64,7 @@ public class UIManager : MonoBehaviour
     {
         for (int i = 0; i < TM.CHARS.Length; i++)
         {
-            //CHARSHPPROGRESSBARUI[i].fillAmount = (float)TM.CHARS[i].CharacterHP / (float)TM.CHARS[i].CharacterMAXHP;
+            CHARSHPBARUI[i].fillAmount = (float)TM.CHARS[i].CharacterHP / (float)TM.CHARS[i].CharacterMAXHP;
             CHARSHPUI[i].text = $"{TM.CHARS[i].CharacterHP.ToString()} / {TM.CHARS[i].CharacterMAXHP.ToString()}";
         }
     }
