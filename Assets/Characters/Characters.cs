@@ -12,6 +12,7 @@ public class Characters : ScriptableObject
     public int CharacterDefense;
     public int CharacterSpeed;
     public Sprite CharacterSprite;
+    public Sprite CharacterBattleSprite;
     public bool Allied;
     public enum StatusType
     {
@@ -20,4 +21,5 @@ public class Characters : ScriptableObject
         Poisoned,
     }
     public StatusType Status;
+    public bool Defending;
 }

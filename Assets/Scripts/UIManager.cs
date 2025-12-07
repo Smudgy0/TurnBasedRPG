@@ -15,11 +15,13 @@ public class UIManager : MonoBehaviour
     public Image[] CHARSFieldSPRITE;
 
     public Image[] ENEMIESSPRITE;
+    public Sprite DEADORINVALID;
 
     [SerializeField] public Image[] CHARSHPBARUI;
 
     public Image[] TURNSYSTEMSPRITES;
     public GameObject PLAYERBUTTONS;
+    public GameObject PLAYERTARGETBUTTONS;
 
     void Start()
     {
@@ -28,9 +30,9 @@ public class UIManager : MonoBehaviour
 
     public void Initialize()
     {
+        InitializeTURNUI();
         InitializeCHARS();
         InitializeENEMIES();
-        InitializeTURNUI();
     }
 
     void InitializeCHARS()
@@ -39,24 +41,26 @@ public class UIManager : MonoBehaviour
         {
             CHARSHPUI[i].text = $"{TM.CHARS[i].CharacterHP.ToString()} / {TM.CHARS[i].CharacterHP.ToString()}";
             CHARSNAMEUI[i].text = $"{TM.CHARS[i].CharacterName.ToString()}";
-            CHARSSPRITE[i].sprite = TM.CHARS[i].CharacterSprite;
-            CHARSFieldSPRITE[i].sprite = TM.CHARS[i].CharacterSprite;
+            CHARSSPRITE[i].sprite = TM.CHARS[i].CharacterBattleSprite;
+            CHARSFieldSPRITE[i].sprite = TM.CHARS[i].CharacterBattleSprite;
         }
     }
 
-    void InitializeENEMIES()
+    public void InitializeENEMIES()
     {
         for (int i = 0; i < TM.ENEMIES.Length; i++)
         {
-            ENEMIESSPRITE[i].sprite = TM.ENEMIES[i].CharacterSprite;
+            ENEMIESSPRITE[i].sprite = TM.ENEMIES[i].CharacterBattleSprite;
         }
     }
 
-    void InitializeTURNUI()
+    public void InitializeTURNUI()
     {
+
         for (int i = 0; i < BM.BattleOrder.Length; i++)
         {
-            TURNSYSTEMSPRITES[i].sprite = BM.BattleOrder[i].CharacterSprite;
+            BM.BattleOrder[i].CharacterBattleSprite = BM.BattleOrder[i].CharacterSprite;
+            TURNSYSTEMSPRITES[i].sprite = BM.BattleOrder[i].CharacterBattleSprite;
         }
     }
 

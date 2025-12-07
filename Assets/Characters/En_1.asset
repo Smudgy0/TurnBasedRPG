@@ -15,9 +15,11 @@ MonoBehaviour:
   CharacterName: Slime
   CharacterHP: 5
   CharacterMAXHP: 5
-  CharacterAttack: 1
+  CharacterAttack: 3
   CharacterDefense: 1
   CharacterSpeed: 2
   CharacterSprite: {fileID: 21300000, guid: e2add7e5e52f0b447855cfcd5f1153e0, type: 3}
+  CharacterBattleSprite: {fileID: 0}
   Allied: 0
   Status: 0
+  Defending: 1
