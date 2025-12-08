@@ -1,20 +1,19 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.TextCore.Text;
-using TMPro.EditorUtilities;
 using TMPro;
-using UnityEngine.SceneManagement;
 using System.Linq;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BattleManager : MonoBehaviour
 {
     public TeamManager TM;
-    public UIManager UIM;
+    public CombatUIManager CUIM;
     public GameObject[] CHOOSETARGETENEMY;
     public TMP_Text[] CHOOSETARGETENEMYTEXT;
 
-    public Characters[] BattleOrder;
+    public List<Characters> BattleOrder = new();
+    public Characters[] charactersInBattle;
     public int SortingNumber = 0;
 
     private Button slimeButton;
@@ -33,24 +32,27 @@ public class BattleManager : MonoBehaviour
         }
 
         Debug.Log("Awake");
-        BattleOrder[0] = TM.CHARS[0];
-        BattleOrder[1] = TM.CHARS[1];
-        BattleOrder[2] = TM.CHARS[2];
 
-        BattleOrder[3] = TM.ENEMIES[0];
-        BattleOrder[4] = TM.ENEMIES[1];
-        BattleOrder[5] = TM.ENEMIES[2];
-
-        /*
-        while (SortingNumber != 6)
+        for (int i = 0; i < TM.CHARS.Count; i++)
         {
-            SortSideOrders();
+            BattleOrder.Add(TM.CHARS[i]);
         }
-        */
+
+        for (int i = 0; i < TM.ENEMIES.Count; i++)
+        {
+            BattleOrder.Add(TM.ENEMIES[i]);
+        }
+        charactersInBattle = BattleOrder.ToArray();
+
+        for (int i = 0; i < BattleOrder.Count; i++)
+        {
+            Debug.Log(i);
+            CUIM.UIMUpdateCharacterSprites(i, BattleOrder[i]);
+        }
 
         SortSideOrders();
 
-        UIM.Initialize();
+        CUIM.Initialize();
         InitializeTargetOptions();
 
         starting = false;
@@ -58,49 +60,44 @@ public class BattleManager : MonoBehaviour
 
     public void TargetNumber(int TargetNum)
     {
-        //Debug.Log("TargetNumber");
+        HideTargets();
+        ShowTargets();
+        BattleOrder[0].DisableDefence();
         TM.ENEMIES[TargetNum].CharacterHP = TM.ENEMIES[TargetNum].CharacterHP - BattleOrder[0].CharacterAttack;
-        ChangeOrder(BattleOrder[0], BattleOrder[1], BattleOrder[2], BattleOrder[3], BattleOrder[4], BattleOrder[5]);
+        CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {BattleOrder[0].CharacterAttack} damage to {TM.ENEMIES[TargetNum].CharacterName}!";
+        UpdateBattleOrder();
     }
 
-    void ChangeOrder(Characters SLOT1, Characters SLOT2, Characters SLOT3, Characters SLOT4, Characters SLOT5, Characters SLOT6)
+    public void DefendButton()
     {
-        //Debug.Log("ChangeOrder");
-        BattleOrder[0] = SLOT2;
-        BattleOrder[1] = SLOT3;
-        BattleOrder[2] = SLOT4;
-        BattleOrder[3] = SLOT5;
-        BattleOrder[4] = SLOT6;
-        BattleOrder[5] = SLOT1;
+        BattleOrder[0].Defend();
+    }
 
-        /*
-        Debug.Log(BattleOrder[0]);
-        Debug.Log(BattleOrder[1]);
-        Debug.Log(BattleOrder[2]);
-        Debug.Log(BattleOrder[3]);
-        Debug.Log(BattleOrder[4]);
-        Debug.Log(BattleOrder[5]);
-        */
+    void UpdateBattleOrder()
+    {
+        Characters tempChar = BattleOrder[0];
+        BattleOrder.RemoveAt(0);
+        BattleOrder.Add(tempChar);
     }
 
     void CHECKTURNUI()
     {
         //Debug.Log("CHECKTURNUI");
-        UIM.TURNSYSTEMSPRITES[0].sprite = BattleOrder[0].CharacterBattleSprite;
-        UIM.TURNSYSTEMSPRITES[1].sprite = BattleOrder[1].CharacterBattleSprite;
-        UIM.TURNSYSTEMSPRITES[2].sprite = BattleOrder[2].CharacterBattleSprite;
-        UIM.TURNSYSTEMSPRITES[3].sprite = BattleOrder[3].CharacterBattleSprite;
-        UIM.TURNSYSTEMSPRITES[4].sprite = BattleOrder[4].CharacterBattleSprite;
-        UIM.TURNSYSTEMSPRITES[5].sprite = BattleOrder[5].CharacterBattleSprite;
+        for (int i = 0; i < BattleOrder.Count; i++)
+        {
+            CUIM.TURNSYSTEMSPRITES[i].sprite = BattleOrder[i].CharacterBattleSprite;
+        }
 
+        /*
         for (int i = 0; i < UIM.CHARSFieldSPRITE.Length; i++)
         {
-            UIM.CHARSFieldSPRITE[i].sprite = TM.CHARS[i].CharacterBattleSprite;
+            UIM.CHARSFieldSPRITE.sprite = TM.CHARS[i].CharacterBattleSprite;
         }
         for (int i = 0; i < UIM.ENEMIESSPRITE.Length; i++)
         {
-            UIM.ENEMIESSPRITE[i].sprite = TM.ENEMIES[i].CharacterBattleSprite;
+            UIM.ENEMIESSPRITE.sprite = TM.ENEMIES[i].CharacterBattleSprite;
         }
+        */
     }
 
     public void ShowTargets()
@@ -111,8 +108,8 @@ public class BattleManager : MonoBehaviour
         CHOOSETARGETENEMY[2].SetActive(true);
         CHOOSETARGETENEMY[3].SetActive(true);
 
-        UIM.PLAYERBUTTONS.SetActive(false);
-        UIM.PLAYERTARGETBUTTONS.SetActive(true);
+        CUIM.PLAYERBUTTONS.SetActive(false);
+        CUIM.PLAYERTARGETBUTTONS.SetActive(true);
 
         MenuActive = false;
     }
@@ -125,8 +122,8 @@ public class BattleManager : MonoBehaviour
         CHOOSETARGETENEMY[2].SetActive(false);
         CHOOSETARGETENEMY[3].SetActive(false);
 
-        UIM.PLAYERBUTTONS.SetActive(true);
-        UIM.PLAYERTARGETBUTTONS.SetActive(false);
+        CUIM.PLAYERBUTTONS.SetActive(true);
+        CUIM.PLAYERTARGETBUTTONS.SetActive(false);
 
         MenuActive = true;
     }
@@ -142,10 +139,10 @@ public class BattleManager : MonoBehaviour
         {
             CHOOSETARGETENEMYTEXT[1].text = TM.ENEMIES[1].CharacterName.ToString();
         }
-        if (TM.ENEMIES[2] != null)
+        /*if (TM.ENEMIES[2] != null)
         {
             CHOOSETARGETENEMYTEXT[2].text = TM.ENEMIES[2].CharacterName.ToString();
-        }
+        }*/
     }
 
     void SortSideOrders()
@@ -153,7 +150,7 @@ public class BattleManager : MonoBehaviour
         // Start of ordering
         Debug.Log("Sorting");
         var sorted = BattleOrder.OrderByDescending(item => item.CharacterSpeed);
-        BattleOrder = sorted.ToArray();
+        BattleOrder = sorted.ToList();
 
         /*if (BattleOrder[0].CharacterSpeed < BattleOrder[1].CharacterSpeed)
         {
@@ -195,41 +192,65 @@ public class BattleManager : MonoBehaviour
     {
         CHECKTURNUI();
 
+        // Player Turn
         if (BattleOrder[0].Allied == true && BattleOrder[0].CharacterHP > 0)
         {
-            UIM.PLAYERBUTTONS.SetActive(true);
+            CUIM.PLAYERBUTTONS.SetActive(true);
         }
+
+        // Enemy Turn
         if(BattleOrder[0].Allied == false && BattleOrder[0].CharacterHP > 0 && DelayTimerActive == false)
         {
-            UIM.PLAYERBUTTONS.SetActive(false);
-            UIM.PLAYERTARGETBUTTONS.SetActive(false);
+            CUIM.PLAYERBUTTONS.SetActive(false);
+            CUIM.PLAYERTARGETBUTTONS.SetActive(false);
             DelayTimerActive = true;
             StartCoroutine (EnemyTurn());
         }
+
+        // If character is dead, skip their turn DEPRECATED WHEN BATTLE ORDER REMOVES THEM FROM THE LIST
         if (BattleOrder[0].CharacterHP !< 0)
         {
-            ChangeOrder(BattleOrder[0], BattleOrder[1], BattleOrder[2], BattleOrder[3], BattleOrder[4], BattleOrder[5]);
+            UpdateBattleOrder();
         }
 
-        for (int i = 0; i < BattleOrder.Length; i++)
+        // Kill a character if their health is 0 or lower
+        for (int i = 0; i < charactersInBattle.Length; i++)
         {
-            if (BattleOrder[i].CharacterHP <= 0)
+            if (charactersInBattle[i].CharacterHP <= 0)
             {
-                BattleOrder[i].CharacterBattleSprite = UIM.DEADORINVALID;
+                for (int j = 0; j < BattleOrder.Count; j++)
+                {
+                    if (charactersInBattle[i] == BattleOrder[j])
+                    {
+                        CharacterDeath(i, j, charactersInBattle[i]);
+                    }
+                }
             }
         }
-        
+    }
+
+    public void CharacterDeath(int whichSlot, int currentPositionInBattleOrder, Characters character)
+    {
+        RemoveFromBattleOrder(currentPositionInBattleOrder);
+        CUIM.UIMUpdateCharacterSprites(whichSlot, character);
+    }
+
+    void RemoveFromBattleOrder(int whichSlot)
+    {
+        BattleOrder.RemoveAt(whichSlot);
     }
 
     private IEnumerator EnemyTurn()
     {
         yield return new WaitForSeconds(3);
 
+
         EnemyActionPicker = UnityEngine.Random.Range(0,2);
 
         if(EnemyActionPicker == 1)
         {
             BattleOrder[0].Defending = true;
+            CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} Defends!";
             Debug.Log("Enemy Defends");
         }
         else
@@ -238,10 +259,12 @@ public class BattleManager : MonoBehaviour
             EnemyTargetPicker = UnityEngine.Random.Range(0,3);
             TM.CHARS[EnemyTargetPicker].CharacterHP = TM.CHARS[EnemyTargetPicker].CharacterHP - BattleOrder[0].CharacterAttack;
             Debug.Log("Enemy Attacks");
+            CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {BattleOrder[0].CharacterAttack} damage to {TM.CHARS[EnemyTargetPicker].CharacterName}!";
         }
 
-        UIM.PLAYERBUTTONS.SetActive(true);
-        ChangeOrder(BattleOrder[0], BattleOrder[1], BattleOrder[2], BattleOrder[3], BattleOrder[4], BattleOrder[5]);
+        CUIM.PLAYERBUTTONS.SetActive(true);
+        UpdateBattleOrder();
         DelayTimerActive = false;
+
     }
 }

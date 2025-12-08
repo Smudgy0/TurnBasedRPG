@@ -22,4 +22,14 @@ public class Characters : ScriptableObject
     }
     public StatusType Status;
     public bool Defending;
+
+    public void Defend()
+    {
+        Defending = true;
+    }
+
+    public void DisableDefence()
+    {
+        Defending = false;
+    }
 }
