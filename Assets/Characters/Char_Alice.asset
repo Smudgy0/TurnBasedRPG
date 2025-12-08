@@ -16,7 +16,7 @@ MonoBehaviour:
   CharacterHP: 15
   CharacterMAXHP: 15
   CharacterAttack: 3
-  CharacterDefense: 1
+  CharacterDefense: 3
   CharacterSpeed: 5
   CharacterSprite: {fileID: 21300000, guid: df27b8087a081c4449ca118cef981207, type: 3}
   CharacterBattleSprite: {fileID: 0}

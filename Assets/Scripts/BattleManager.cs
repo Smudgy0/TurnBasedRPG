@@ -23,6 +23,7 @@ public class BattleManager : MonoBehaviour
     private int EnemyActionPicker;
     private int EnemyTargetPicker;
     private bool DelayTimerActive = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -63,14 +64,62 @@ public class BattleManager : MonoBehaviour
         HideTargets();
         ShowTargets();
         BattleOrder[0].DisableDefence();
-        TM.ENEMIES[TargetNum].CharacterHP = TM.ENEMIES[TargetNum].CharacterHP - BattleOrder[0].CharacterAttack;
-        CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {BattleOrder[0].CharacterAttack} damage to {TM.ENEMIES[TargetNum].CharacterName}!";
+
+        int TempDamage = 0;
+
+        if (TM.ENEMIES[TargetNum].Defending == false)
+        {
+            TempDamage = BattleOrder[0].CharacterAttack;
+
+            if(TempDamage < 0)
+            {
+                TempDamage = 0;
+            }
+
+            TM.ENEMIES[TargetNum].CharacterHP = TM.ENEMIES[TargetNum].CharacterHP - TempDamage;
+            CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {BattleOrder[0].CharacterAttack} damage to {TM.ENEMIES[TargetNum].CharacterName}!";
+        }
+        else if(TM.ENEMIES[TargetNum].Defending == true)
+        {
+            TempDamage = BattleOrder[0].CharacterAttack - TM.ENEMIES[TargetNum].CharacterDefense;
+
+            if (TempDamage < 0)
+            {
+                TempDamage = 0;
+            }
+
+            TM.ENEMIES[TargetNum].CharacterHP = TM.ENEMIES[TargetNum].CharacterHP - TempDamage;
+            CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {TempDamage} damage to {TM.ENEMIES[TargetNum].CharacterName}!";
+        }
+
+
         UpdateBattleOrder();
     }
 
     public void DefendButton()
     {
         BattleOrder[0].Defend();
+        CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} Defends!";
+        UpdateBattleOrder();
+    }
+
+    public void Flee()
+    {
+        BattleOrder[0].DisableDefence();
+        int RNDChanceToFlee = 0;
+        RNDChanceToFlee = UnityEngine.Random.Range(0, 101);
+
+        if(RNDChanceToFlee > 90)
+        {
+            CUIM.COMBATTEXTINFO.text = "The Team Successfully Flees!";
+
+            // add function to return to game world!
+        }
+        else
+        {
+            CUIM.COMBATTEXTINFO.text = "The Team Fails To Flee!";
+            UpdateBattleOrder();
+        }
     }
 
     void UpdateBattleOrder()
@@ -103,46 +152,41 @@ public class BattleManager : MonoBehaviour
     public void ShowTargets()
     {
         //Debug.Log("ShowTargets");
-        CHOOSETARGETENEMY[0].SetActive(true);
-        CHOOSETARGETENEMY[1].SetActive(true);
-        CHOOSETARGETENEMY[2].SetActive(true);
-        CHOOSETARGETENEMY[3].SetActive(true);
+        for (int i = 0; i < CHOOSETARGETENEMY.Length; i++)
+        {
+            CHOOSETARGETENEMY[i].SetActive(true);
+        }
 
         CUIM.PLAYERBUTTONS.SetActive(false);
         CUIM.PLAYERTARGETBUTTONS.SetActive(true);
 
-        MenuActive = false;
+        //MenuActive = false;
     }
 
     public void HideTargets()
     {
         //Debug.Log("HideTargets");
-        CHOOSETARGETENEMY[0].SetActive(false);
-        CHOOSETARGETENEMY[1].SetActive(false);
-        CHOOSETARGETENEMY[2].SetActive(false);
-        CHOOSETARGETENEMY[3].SetActive(false);
+        for (int i = 0; i < CHOOSETARGETENEMY.Length; i++)
+        {
+            CHOOSETARGETENEMY[i].SetActive(false);
+        }
 
         CUIM.PLAYERBUTTONS.SetActive(true);
         CUIM.PLAYERTARGETBUTTONS.SetActive(false);
 
-        MenuActive = true;
+        //MenuActive = true;
     }
 
     void InitializeTargetOptions()
     {
         //Debug.Log("InitializeTargetOptions");
-        if (TM.ENEMIES[0] != null)
+        for (int i = 0; i < TM.ENEMIES.Count; i++)
         {
-            CHOOSETARGETENEMYTEXT[0].text = TM.ENEMIES[0].CharacterName.ToString();
+            if (TM.ENEMIES[i] != null)
+            {
+                CHOOSETARGETENEMYTEXT[i].text = TM.ENEMIES[i].CharacterName.ToString();
+            }
         }
-        if (TM.ENEMIES[1] != null)
-        {
-            CHOOSETARGETENEMYTEXT[1].text = TM.ENEMIES[1].CharacterName.ToString();
-        }
-        /*if (TM.ENEMIES[2] != null)
-        {
-            CHOOSETARGETENEMYTEXT[2].text = TM.ENEMIES[2].CharacterName.ToString();
-        }*/
     }
 
     void SortSideOrders()
@@ -151,33 +195,6 @@ public class BattleManager : MonoBehaviour
         Debug.Log("Sorting");
         var sorted = BattleOrder.OrderByDescending(item => item.CharacterSpeed);
         BattleOrder = sorted.ToList();
-
-        /*if (BattleOrder[0].CharacterSpeed < BattleOrder[1].CharacterSpeed)
-        {
-            SwapArray(0 , 1, BattleOrder[0]);
-        }
-
-        if (BattleOrder[1].CharacterSpeed < BattleOrder[2].CharacterSpeed)
-        {
-            SwapArray(1 , 2, BattleOrder[1]);
-        }
-
-        if (BattleOrder[2].CharacterSpeed < BattleOrder[3].CharacterSpeed)
-        {
-            SwapArray(2 , 3, BattleOrder[2]);
-        }
-
-        if (BattleOrder[3].CharacterSpeed < BattleOrder[4].CharacterSpeed)
-        {
-            SwapArray(3 , 4, BattleOrder[3]);
-        }
-
-        if (BattleOrder[4].CharacterSpeed < BattleOrder[5].CharacterSpeed)
-        {
-            SwapArray(4 , 5, BattleOrder[4]);
-        }
-
-        SortingNumber++;*/
     }
 
     void SwapArray(int ArrayVal1, int ArrayVal2, Characters SavedChar)
@@ -195,7 +212,7 @@ public class BattleManager : MonoBehaviour
         // Player Turn
         if (BattleOrder[0].Allied == true && BattleOrder[0].CharacterHP > 0)
         {
-            CUIM.PLAYERBUTTONS.SetActive(true);
+
         }
 
         // Enemy Turn
@@ -227,6 +244,13 @@ public class BattleManager : MonoBehaviour
                 }
             }
         }
+        for (int i = 0; i < TM.ENEMIES.Count; i++)
+        {
+            if (TM.ENEMIES[i].CharacterHP < 0)
+            {
+                CHOOSETARGETENEMY[i].SetActive(false);
+            }
+        }
     }
 
     public void CharacterDeath(int whichSlot, int currentPositionInBattleOrder, Characters character)
@@ -252,14 +276,44 @@ public class BattleManager : MonoBehaviour
             BattleOrder[0].Defending = true;
             CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} Defends!";
             Debug.Log("Enemy Defends");
+            BattleOrder[0].Defend();
         }
         else
         {
+            int Tempdamage = 0;
+
+            BattleOrder[0].DisableDefence();
             BattleOrder[0].Defending = false;
-            EnemyTargetPicker = UnityEngine.Random.Range(0,3);
-            TM.CHARS[EnemyTargetPicker].CharacterHP = TM.CHARS[EnemyTargetPicker].CharacterHP - BattleOrder[0].CharacterAttack;
-            Debug.Log("Enemy Attacks");
-            CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {BattleOrder[0].CharacterAttack} damage to {TM.CHARS[EnemyTargetPicker].CharacterName}!";
+            EnemyTargetPicker = Random.Range(0,3);
+
+            if(TM.CHARS[EnemyTargetPicker].Defending == false) // if player does not defend, their characters defence is not taken into account
+            {
+                Tempdamage = BattleOrder[0].CharacterAttack;
+
+                if(Tempdamage < 0)
+                {
+                    Tempdamage = 0;
+                }
+
+                TM.CHARS[EnemyTargetPicker].CharacterHP = TM.CHARS[EnemyTargetPicker].CharacterHP - Tempdamage;
+                CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {Tempdamage} damage to {TM.CHARS[EnemyTargetPicker].CharacterName}!";
+            }
+            else if(TM.CHARS[EnemyTargetPicker].Defending == true) // if player defends, their characters defence is taken into account
+            {
+                Tempdamage = BattleOrder[0].CharacterAttack - TM.CHARS[EnemyTargetPicker].CharacterDefense;
+
+                Debug.Log($"Slime Does {Tempdamage}");
+                Debug.Log(TM.CHARS[EnemyTargetPicker].CharacterDefense);
+                Debug.Log(TM.CHARS[EnemyTargetPicker].CharacterName);
+
+                if (Tempdamage < 0)
+                {
+                    Tempdamage = 0;
+                }
+
+                TM.CHARS[EnemyTargetPicker].CharacterHP -= Tempdamage;
+                CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {Tempdamage} damage to {TM.CHARS[EnemyTargetPicker].CharacterName}!";
+            }
         }
 
         CUIM.PLAYERBUTTONS.SetActive(true);

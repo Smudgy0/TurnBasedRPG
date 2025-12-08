@@ -92,6 +92,7 @@ public class CombatUIManager : MonoBehaviour
         for (int i = 0; i < TM.ENEMIES.Count; i++)
         {
             enemyStats[i].CHARSSPRITE.sprite = TM.ENEMIES[i].CharacterBattleSprite;
+            enemyStats[i].CHARSNAMEUI.text = TM.ENEMIES[i].CharacterName;
         }
     }
 
