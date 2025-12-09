@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Char_Chito
   m_EditorClassIdentifier: Assembly-CSharp::Allies
   CharacterName: Chito
-  CharacterHP: 20
-  CharacterMAXHP: 20
-  CharacterAttack: 2
-  CharacterDefense: 1
+  CharacterHP: 2092
+  CharacterMAXHP: 2092
+  CharacterAttack: 46
+  CharacterDefense: 21
   CharacterSpeed: 10
   CharacterSprite: {fileID: 21300000, guid: 1f5405f39203f6d448b8f55984fc10ea, type: 3}
   CharacterBattleSprite: {fileID: 0}

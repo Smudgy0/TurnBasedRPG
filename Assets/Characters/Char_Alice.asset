@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Char_Alice
   m_EditorClassIdentifier: Assembly-CSharp::Allies
   CharacterName: Alice
-  CharacterHP: 15
-  CharacterMAXHP: 15
-  CharacterAttack: 3
-  CharacterDefense: 3
+  CharacterHP: 1514
+  CharacterMAXHP: 1514
+  CharacterAttack: 71
+  CharacterDefense: 45
   CharacterSpeed: 5
   CharacterSprite: {fileID: 21300000, guid: df27b8087a081c4449ca118cef981207, type: 3}
   CharacterBattleSprite: {fileID: 0}
