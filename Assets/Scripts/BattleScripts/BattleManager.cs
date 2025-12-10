@@ -23,9 +23,7 @@ public class BattleManager : MonoBehaviour
     private int EnemyActionPicker;
     private int EnemyTargetPicker;
     private bool DelayTimerActive = false;
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public void InitializeStart()
     {
         if (!starting)
         {
@@ -34,7 +32,7 @@ public class BattleManager : MonoBehaviour
 
         Debug.Log("Awake");
 
-        for (int i = 0; i < TM.CHARS.Count; i++)
+        for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
         {
             BattleOrder.Add(TM.CHARS[i]);
         }
@@ -51,12 +49,13 @@ public class BattleManager : MonoBehaviour
             CUIM.UIMUpdateCharacterSprites(i, BattleOrder[i]);
         }
 
+        //TM.SetTeams();
         SortSideOrders();
 
         CUIM.Initialize();
         InitializeTargetOptions();
 
-        starting = false;
+        //starting = false;
     }
 
     public void TargetNumber(int TargetNum)
@@ -271,7 +270,7 @@ public class BattleManager : MonoBehaviour
 
         EnemyActionPicker = UnityEngine.Random.Range(0,2);
 
-        if(EnemyActionPicker == 1)
+        if(EnemyActionPicker == 1) // enemy defends
         {
             BattleOrder[0].Defending = true;
             CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} Defends!";
@@ -284,7 +283,7 @@ public class BattleManager : MonoBehaviour
 
             BattleOrder[0].DisableDefence();
             BattleOrder[0].Defending = false;
-            EnemyTargetPicker = Random.Range(0,3);
+            EnemyTargetPicker = Random.Range(0,CurrentTeam.TeamCharacters.Count);
 
             if(TM.CHARS[EnemyTargetPicker].Defending == false) // if player does not defend, their characters defence is not taken into account
             {

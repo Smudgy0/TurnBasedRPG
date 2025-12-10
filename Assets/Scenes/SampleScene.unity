@@ -4154,14 +4154,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af14b485abbdbc146adc473b801847b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TeamManager
-  CHARS:
-  - {fileID: 11400000, guid: 680f4a3fef3925b4a90e43b57cc1726e, type: 2}
-  - {fileID: 11400000, guid: 2a1304376df149d4d932af5b0a02b4a3, type: 2}
-  - {fileID: 11400000, guid: 11f858a92d73e9f448bf7a071a99c6f3, type: 2}
+  CHARS: []
   ENEMIES:
   - {fileID: 11400000, guid: 175b4aa8ad7ced144986a28e8df20eee, type: 2}
   - {fileID: 11400000, guid: 175b4aa8ad7ced144986a28e8df20eee, type: 2}
   - {fileID: 11400000, guid: 175b4aa8ad7ced144986a28e8df20eee, type: 2}
+  BM: {fileID: 320215807}
 --- !u!4 &1389381844
 Transform:
   m_ObjectHideFlags: 0

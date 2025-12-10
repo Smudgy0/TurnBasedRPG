@@ -6,16 +6,25 @@ public class TeamManager : MonoBehaviour
     [SerializeField] public List<Allies> CHARS = new();
     [SerializeField] public List<Enemies> ENEMIES = new();
 
-    void Awake()
+    public BattleManager BM;
+
+    void Start()
     {
-        for (int i = 0; i < CHARS.Count; i++)
+        SetTeams();
+    }
+
+    public void SetTeams()
+    {
+        for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
         {
-            CHARS[i] = Instantiate(CHARS[i]);
+            CHARS.Add(CurrentTeam.TeamCharacters[i]);
         }
 
         for (int i = 0; i < ENEMIES.Count; i++)
         {
             ENEMIES[i] = Instantiate(ENEMIES[i]);
         }
+
+        BM.InitializeStart();
     }
 }
