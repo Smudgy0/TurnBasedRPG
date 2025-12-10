@@ -14,6 +14,7 @@ public class Characters : ScriptableObject
     public Sprite CharacterSprite;
     public Sprite CharacterBattleSprite;
     public bool Allied;
+    public bool Dead = false;
     public enum StatusType
     {
         None,

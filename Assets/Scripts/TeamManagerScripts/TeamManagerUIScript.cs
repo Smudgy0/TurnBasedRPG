@@ -18,12 +18,12 @@ public class TeamManagerUIScript : MonoBehaviour
         TeamSelectMenu.SetActive(true);
         TeamSelectMenuButton.SetActive(false);
 
-        for(int i = 0 ; i < WCM.AllCharacters.Count; i++)
+        for(int i = 0 ; i < WorldCharacterManager.AllCharacters.Count; i++)
         {
-            CharacterData[i].CHARImage.sprite = WCM.AllCharacters[i].CharacterSprite;
-            CharacterData[i].CHARNameTextBox.text = WCM.AllCharacters[i].CharacterName;
-            CharacterData[i].HPFillBar.fillAmount = (float)WCM.AllCharacters[i].CharacterHP / (float)WCM.AllCharacters[i].CharacterMAXHP;
-            CharacterData[i].HPBarHPText.text = $"{WCM.AllCharacters[i].CharacterHP.ToString()} / {WCM.AllCharacters[i].CharacterMAXHP.ToString()}";
+            CharacterData[i].CHARImage.sprite = WorldCharacterManager.AllCharacters[i].CharacterSprite;
+            CharacterData[i].CHARNameTextBox.text = WorldCharacterManager.AllCharacters[i].CharacterName;
+            CharacterData[i].HPFillBar.fillAmount = (float)WorldCharacterManager.AllCharacters[i].CharacterHP / (float)WorldCharacterManager.AllCharacters[i].CharacterMAXHP;
+            CharacterData[i].HPBarHPText.text = $"{WorldCharacterManager.AllCharacters[i].CharacterHP.ToString()} / {WorldCharacterManager.AllCharacters[i].CharacterMAXHP.ToString()}";
         }
 
         for(int i = 0 ; i < CurrentTeam.TeamCharacters.Count; i++)

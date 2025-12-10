@@ -4,6 +4,7 @@ using TMPro;
 using System.Linq;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour
 {
@@ -23,8 +24,18 @@ public class BattleManager : MonoBehaviour
     private int EnemyActionPicker;
     private int EnemyTargetPicker;
     private bool DelayTimerActive = false;
+
+    public int AlliedDeaths;
+    public int EnemyDeaths;
+
+    public GameObject BATTLEENDBUTTON;
+    public TMP_Text BATTLEENDTEXT;
     public void InitializeStart()
     {
+        BATTLEENDBUTTON.SetActive(false);
+        AlliedDeaths = 0;
+        EnemyDeaths = 0;
+
         if (!starting)
         {
             return;
@@ -34,11 +45,13 @@ public class BattleManager : MonoBehaviour
 
         for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
         {
+            TM.CHARS[i].Dead = false;
             BattleOrder.Add(TM.CHARS[i]);
         }
 
         for (int i = 0; i < TM.ENEMIES.Count; i++)
         {
+            TM.ENEMIES[i].Dead = false;
             BattleOrder.Add(TM.ENEMIES[i]);
         }
         charactersInBattle = BattleOrder.ToArray();
@@ -111,6 +124,7 @@ public class BattleManager : MonoBehaviour
         if(RNDChanceToFlee > 90)
         {
             CUIM.COMBATTEXTINFO.text = "The Team Successfully Flees!";
+            BATTLEENDBUTTON.SetActive(true);
 
             // add function to return to game world!
         }
@@ -238,11 +252,22 @@ public class BattleManager : MonoBehaviour
                 {
                     if (charactersInBattle[i] == BattleOrder[j])
                     {
+                        if(charactersInBattle[i].Allied == true)
+                        {
+                            AlliedDeaths++;
+                        }
+                        else if(charactersInBattle[i].Allied == false)
+                        {
+                            EnemyDeaths++;
+                        }
                         CharacterDeath(i, j, charactersInBattle[i]);
                     }
                 }
             }
         }
+
+        TeamConditionChecker();
+
         for (int i = 0; i < TM.ENEMIES.Count; i++)
         {
             if (TM.ENEMIES[i].CharacterHP < 0)
@@ -250,6 +275,27 @@ public class BattleManager : MonoBehaviour
                 CHOOSETARGETENEMY[i].SetActive(false);
             }
         }
+    }
+
+    void TeamConditionChecker()
+    {
+
+        if(AlliedDeaths >= TM.CHARS.Count)
+        {
+            BATTLEENDBUTTON.SetActive(true);
+            BATTLEENDTEXT.text = "You Lose!";
+        }
+
+        if(EnemyDeaths >= TM.ENEMIES.Count)
+        {
+            BATTLEENDBUTTON.SetActive(true);
+            BATTLEENDTEXT.text = "You Win!";
+        }
+    }
+
+    public void RevertToMap()
+    {
+        SceneManager.LoadScene(1);
     }
 
     public void CharacterDeath(int whichSlot, int currentPositionInBattleOrder, Characters character)

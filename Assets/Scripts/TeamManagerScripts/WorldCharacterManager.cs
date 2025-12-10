@@ -4,19 +4,31 @@ using UnityEngine;
 
 public class WorldCharacterManager : MonoBehaviour
 {
-    public List<Allies> AllCharacters = new();
+    public List<Allies> CharacterDataLog = new();
+    public static List<Allies> AllCharacters = new();
+    public List<Allies> DebugAllCharacters = new();
     //public List<Characters> TeamCharacters = new();
     public TeamManagerUIScript TMUI;
     private bool CanAdd = true;
+    private static bool CharsLoaded = false;
 
-    void Start()
+    void Awake()
     {
-        for(int i = 0; i < AllCharacters.Count; i++)
+        if(CharsLoaded == false)
         {
-            AllCharacters[i] = Instantiate(AllCharacters[i]);
+            for(int i = 0; i < CharacterDataLog.Count; i++)
+            {
+                AllCharacters.Add(Instantiate(CharacterDataLog[i]));
+            }
+
+            FoundTeam();
+            CharsLoaded = true;
         }
 
-        FoundTeam();
+        for(int i = 0; i < AllCharacters.Count; i++)
+        {
+            DebugAllCharacters.Add(AllCharacters[i]);
+        }
     }
 
     void FoundTeam()

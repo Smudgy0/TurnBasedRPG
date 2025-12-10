@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3be1cbc32e540b418024a133fe6a076, type: 3}
+  m_Name: Char_Richard
+  m_EditorClassIdentifier: Assembly-CSharp::Allies
+  CharacterName: Richard
+  CharacterHP: 2325
+  CharacterMAXHP: 2325
+  CharacterAttack: 115
+  CharacterDefense: 65
+  CharacterSpeed: 6
+  CharacterSprite: {fileID: 21300000, guid: e732b0f42063de946916c794c6a10690, type: 3}
+  CharacterBattleSprite: {fileID: 0}
+  Allied: 1
+  Dead: 0
+  Status: 0
+  Defending: 0
+  CharacterEXP: 0
+  CharacterLevel: 0
