@@ -3559,6 +3559,20 @@ MonoBehaviour:
   WCM: {fileID: 1873855888}
   TeamSelectMenu: {fileID: 594897842}
   TeamSelectMenuButton: {fileID: 374347917}
+  TeamUI:
+  - {fileID: 647876697}
+  - {fileID: 119564488}
+  - {fileID: 93236939}
+  UnusedTeamUI:
+  - {fileID: 816286237}
+  - {fileID: 1768338086}
+  - {fileID: 1626499161}
+  - {fileID: 2083891676}
+  - {fileID: 1986430021}
+  - {fileID: 98074795}
+  - {fileID: 100890216}
+  - {fileID: 1772212679}
+  - {fileID: 549554375}
 --- !u!1 &440422438
 GameObject:
   m_ObjectHideFlags: 0

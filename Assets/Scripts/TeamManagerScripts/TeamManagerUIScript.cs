@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
+using System.Collections.Generic;
 
 public class TeamManagerUIScript : MonoBehaviour
 {
@@ -13,13 +14,28 @@ public class TeamManagerUIScript : MonoBehaviour
     public GameObject TeamSelectMenu;
     public GameObject TeamSelectMenuButton;
 
+    public GameObject[] TeamUI;
+    public GameObject[] UnusedTeamUI;
+
     public void LoadCharacterList()
     {
         TeamSelectMenu.SetActive(true);
         TeamSelectMenuButton.SetActive(false);
 
+        for(int i = 0 ; i < UnusedTeamUI.Length; i++)
+        {
+            UnusedTeamUI[i].SetActive(false);
+        }
+
+        for(int i = 0 ; i < TeamUI.Length; i++)
+        {
+            TeamUI[i].SetActive(false);
+        }
+
         for(int i = 0 ; i < WorldCharacterManager.AllCharacters.Count; i++)
         {
+            UnusedTeamUI[i].SetActive(true);
+
             CharacterData[i].CHARImage.sprite = WorldCharacterManager.AllCharacters[i].CharacterSprite;
             CharacterData[i].CHARNameTextBox.text = WorldCharacterManager.AllCharacters[i].CharacterName;
             CharacterData[i].HPFillBar.fillAmount = (float)WorldCharacterManager.AllCharacters[i].CharacterHP / (float)WorldCharacterManager.AllCharacters[i].CharacterMAXHP;
@@ -28,6 +44,8 @@ public class TeamManagerUIScript : MonoBehaviour
 
         for(int i = 0 ; i < CurrentTeam.TeamCharacters.Count; i++)
         {
+            TeamUI[i].SetActive(true);
+
             TeamData[i].CHARImage.sprite = CurrentTeam.TeamCharacters[i].CharacterSprite;
             TeamData[i].CHARNameTextBox.text = CurrentTeam.TeamCharacters[i].CharacterName;
             TeamData[i].HPFillBar.fillAmount = (float)CurrentTeam.TeamCharacters[i].CharacterHP / (float)CurrentTeam.TeamCharacters[i].CharacterMAXHP;
