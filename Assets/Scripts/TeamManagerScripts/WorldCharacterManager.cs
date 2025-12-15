@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class WorldCharacterManager : MonoBehaviour
 {
+    public static WorldCharacterManager Instance;
+
     public List<Allies> CharacterDataLog = new();
     public static List<Allies> AllCharacters = new();
     public List<Allies> DebugAllCharacters = new();
@@ -14,7 +16,9 @@ public class WorldCharacterManager : MonoBehaviour
 
     void Awake()
     {
-        if(CharsLoaded == false)
+        Instance = this;
+
+        if (CharsLoaded == false)
         {
             for(int i = 0; i < CharacterDataLog.Count; i++)
             {
@@ -41,12 +45,9 @@ public class WorldCharacterManager : MonoBehaviour
         CanAdd = true;
         if(CurrentTeam.TeamCharacters.Count < 3)
         {
-            for(int i = 0 ; i < CurrentTeam.TeamCharacters.Count; i++)
+            if (CurrentTeam.TeamCharacters.Contains(AllCharacters[ArrayVal]))
             {
-                if(AllCharacters[ArrayVal].CharacterName == CurrentTeam.TeamCharacters[i].CharacterName)
-                {
-                    CanAdd = false;
-                }
+                CanAdd = false;
             }
 
             if(CanAdd)

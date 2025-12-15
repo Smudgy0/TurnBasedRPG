@@ -4,18 +4,19 @@ using UnityEngine.UI;
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using UnityEngine.EventSystems;
+using UnityEditor;
 
 public class TeamManagerUIScript : MonoBehaviour
 {
-    [SerializeField] UICharacterDisplay[] CharacterData;
-    [SerializeField] UICurrentTeamDisplay[] TeamData;
     public WorldCharacterManager WCM;
 
     public GameObject TeamSelectMenu;
     public GameObject TeamSelectMenuButton;
 
-    public GameObject[] TeamUI;
-    public GameObject[] UnusedTeamUI;
+    [SerializeField] TeamManagerSlots currentHighlightedSlot;
+    public TeamManagerSlots[] TeamUI;
+    public TeamManagerSlots[] UnusedTeamUI;
 
     public void LoadCharacterList()
     {
@@ -24,32 +25,32 @@ public class TeamManagerUIScript : MonoBehaviour
 
         for(int i = 0 ; i < UnusedTeamUI.Length; i++)
         {
-            UnusedTeamUI[i].SetActive(false);
+            UnusedTeamUI[i].gameObject.SetActive(false);
         }
 
         for(int i = 0 ; i < TeamUI.Length; i++)
         {
-            TeamUI[i].SetActive(false);
+            TeamUI[i].gameObject.SetActive(false);
         }
 
         for(int i = 0 ; i < WorldCharacterManager.AllCharacters.Count; i++)
         {
-            UnusedTeamUI[i].SetActive(true);
+            UnusedTeamUI[i].gameObject.SetActive(true);
 
-            CharacterData[i].CHARImage.sprite = WorldCharacterManager.AllCharacters[i].CharacterSprite;
-            CharacterData[i].CHARNameTextBox.text = WorldCharacterManager.AllCharacters[i].CharacterName;
-            CharacterData[i].HPFillBar.fillAmount = (float)WorldCharacterManager.AllCharacters[i].CharacterHP / (float)WorldCharacterManager.AllCharacters[i].CharacterMAXHP;
-            CharacterData[i].HPBarHPText.text = $"{WorldCharacterManager.AllCharacters[i].CharacterHP.ToString()} / {WorldCharacterManager.AllCharacters[i].CharacterMAXHP.ToString()}";
+            UnusedTeamUI[i].CHARImage.sprite = WorldCharacterManager.AllCharacters[i].CharacterSprite;
+            UnusedTeamUI[i].CHARNameTextBox.text = WorldCharacterManager.AllCharacters[i].CharacterName;
+            UnusedTeamUI[i].HPFillBar.fillAmount = (float)WorldCharacterManager.AllCharacters[i].CharacterHP / (float)WorldCharacterManager.AllCharacters[i].CharacterMAXHP;
+            UnusedTeamUI[i].HPBarHPText.text = $"{WorldCharacterManager.AllCharacters[i].CharacterHP.ToString()} / {WorldCharacterManager.AllCharacters[i].CharacterMAXHP.ToString()}";
         }
 
         for(int i = 0 ; i < CurrentTeam.TeamCharacters.Count; i++)
         {
-            TeamUI[i].SetActive(true);
+            TeamUI[i].gameObject.SetActive(true);
 
-            TeamData[i].CHARImage.sprite = CurrentTeam.TeamCharacters[i].CharacterSprite;
-            TeamData[i].CHARNameTextBox.text = CurrentTeam.TeamCharacters[i].CharacterName;
-            TeamData[i].HPFillBar.fillAmount = (float)CurrentTeam.TeamCharacters[i].CharacterHP / (float)CurrentTeam.TeamCharacters[i].CharacterMAXHP;
-            TeamData[i].HPBarHPText.text = $"{CurrentTeam.TeamCharacters[i].CharacterHP.ToString()} / {CurrentTeam.TeamCharacters[i].CharacterMAXHP.ToString()}";
+            TeamUI[i].CHARImage.sprite = CurrentTeam.TeamCharacters[i].CharacterSprite;
+            TeamUI[i].CHARNameTextBox.text = CurrentTeam.TeamCharacters[i].CharacterName;
+            TeamUI[i].HPFillBar.fillAmount = (float)CurrentTeam.TeamCharacters[i].CharacterHP / (float)CurrentTeam.TeamCharacters[i].CharacterMAXHP;
+            TeamUI[i].HPBarHPText.text = $"{CurrentTeam.TeamCharacters[i].CharacterHP.ToString()} / {CurrentTeam.TeamCharacters[i].CharacterMAXHP.ToString()}";
         }
     }
 
@@ -61,27 +62,24 @@ public class TeamManagerUIScript : MonoBehaviour
 
     public void RemoveUI(int ArrayVal)
     {
-        TeamData[ArrayVal].CHARImage.sprite = null;
-        TeamData[ArrayVal].CHARNameTextBox.text = "---";
-        TeamData[ArrayVal].HPFillBar.fillAmount = 1;
-        TeamData[ArrayVal].HPBarHPText.text = "? / ?";
+        TeamUI[ArrayVal].CHARImage.sprite = null;
+        TeamUI[ArrayVal].CHARNameTextBox.text = "---";
+        TeamUI[ArrayVal].HPFillBar.fillAmount = 1;
+        TeamUI[ArrayVal].HPBarHPText.text = "? / ?";
     }
-}
 
-[Serializable]
-public struct UICharacterDisplay
-{
-    public Image CHARImage;
-    public Image HPFillBar;
-    public TextMeshProUGUI CHARNameTextBox;
-    public TextMeshProUGUI HPBarHPText;
-}
+    private void Update()
+    {
+        for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
+        {
+            if (currentHighlightedSlot.CHARNameTextBox.text == CurrentTeam.TeamCharacters[i].CharacterName)
+            {
 
-[Serializable]
-public struct UICurrentTeamDisplay
-{
-    public Image CHARImage;
-    public Image HPFillBar;
-    public TextMeshProUGUI CHARNameTextBox;
-    public TextMeshProUGUI HPBarHPText;
+            }
+        }
+
+        currentHighlightedSlot = EventSystem.current.GetComponent<TeamManagerSlots>();
+
+        // previewCharacter.charName = CurrentTeam.TeamCharacters[currentHighlightedSlot.transform.GetSiblingIndex()].CharacterName;
+    }
 }
