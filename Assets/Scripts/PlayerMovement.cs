@@ -6,11 +6,18 @@ public class PlayerMovement : MonoBehaviour
     Vector2 moveInput;
     [SerializeField] private float speed;
 
+    public static Vector2 sceneStartPos;
+
     Rigidbody2D rb;
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+    }
+
+    private void Start()
+    {
+        SetPlayerPosition();
     }
 
     public void OnMove(InputAction.CallbackContext value)
@@ -22,5 +29,11 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         rb.linearVelocity = moveInput * speed;
+    }
+
+    public void SetPlayerPosition()
+    {
+        if (sceneStartPos == Vector2.zero) return;
+        transform.parent.position = sceneStartPos;
     }
 }
