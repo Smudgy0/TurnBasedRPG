@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using Mono.Cecil;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class WorldCharacterManager : MonoBehaviour
 {
@@ -62,6 +63,7 @@ public class WorldCharacterManager : MonoBehaviour
 
     public void RemoveFromTeam(int ArrayVal)
     {
+        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(TMUI.UnusedTeamUI[0].gameObject);
         TMUI.RemoveUI(ArrayVal);
         CurrentTeam.TeamCharacters.Remove(CurrentTeam.TeamCharacters[ArrayVal]);
         TMUI.LoadCharacterList();

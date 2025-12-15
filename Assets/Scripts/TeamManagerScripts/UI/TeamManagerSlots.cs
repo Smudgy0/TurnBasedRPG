@@ -17,11 +17,16 @@ public class TeamManagerSlots : MonoBehaviour
 
     public void AddCharacterToTeam_Button()
     {
-        WorldCharacterManager.Instance.AddToTeam(transform.GetSiblingIndex());
+        if (CurrentTeam.TeamCharacters.Count < 3)
+        {
+            this.gameObject.SetActive(false);
+            WorldCharacterManager.Instance.AddToTeam(transform.GetSiblingIndex());
+        }
     }
 
     public void RemoveCharacterFromTeam_Button()
     {
+        TeamManagerUIScript.Instance.ReEnableButtons(transform.GetSiblingIndex());
         WorldCharacterManager.Instance.RemoveFromTeam(transform.GetSiblingIndex());
     }
 }

@@ -25,4 +25,5 @@ MonoBehaviour:
   Status: 0
   Defending: 0
   CharacterEXP: 0
+  CharacterEXPRequirement: 500
   CharacterLevel: 0

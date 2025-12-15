@@ -21,7 +21,9 @@ MonoBehaviour:
   CharacterSprite: {fileID: 21300000, guid: 1f5405f39203f6d448b8f55984fc10ea, type: 3}
   CharacterBattleSprite: {fileID: 0}
   Allied: 1
+  Dead: 0
   Status: 0
   Defending: 0
   CharacterEXP: 0
+  CharacterEXPRequirement: 500
   CharacterLevel: 0

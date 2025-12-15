@@ -3,5 +3,6 @@ using UnityEngine;
 public class Allies : Characters
 {
     public int CharacterEXP;
+    public int CharacterEXPRequirement;
     public int CharacterLevel;
 }
