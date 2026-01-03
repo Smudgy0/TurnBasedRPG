@@ -21,7 +21,7 @@ EditorBuildSettings:
     path: Assets/Scenes/House 4.unity
     guid: b50614e65035f3c4b93adedb1da531c0
   - enabled: 1
-    path: Assets/Scenes/Movement.unity
+    path: Assets/Scenes/TeamManagementUI.unity
     guid: 7f773165596a3ef428e7d9575fa11d1c
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 53ff53881608043409ceb10ad5e25b7c, type: 2}
