@@ -15,7 +15,7 @@ public class TeamManagerSlots : MonoBehaviour
         CHARNameTextBox.text = "vnudnk";
     }
 
-    public void AddCharacterToTeam_Button()
+    public void AddCharacterToTeam_Button() // adds character to team
     {
         if (CurrentTeam.TeamCharacters.Count < 3)
         {
@@ -24,7 +24,7 @@ public class TeamManagerSlots : MonoBehaviour
         }
     }
 
-    public void RemoveCharacterFromTeam_Button()
+    public void RemoveCharacterFromTeam_Button() // removes character from team
     {
         TeamManagerUIScript.Instance.ReEnableButtons(transform.GetSiblingIndex());
         WorldCharacterManager.Instance.RemoveFromTeam(transform.GetSiblingIndex());

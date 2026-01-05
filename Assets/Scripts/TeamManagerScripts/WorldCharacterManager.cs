@@ -26,7 +26,7 @@ public class WorldCharacterManager : MonoBehaviour
                 AllCharacters.Add(Instantiate(CharacterDataLog[i]));
             }
 
-            FoundTeam();
+            //FoundTeam();
             CharsLoaded = true;
         }
 
@@ -48,15 +48,10 @@ public class WorldCharacterManager : MonoBehaviour
         {
             if (CurrentTeam.TeamCharacters.Contains(AllCharacters[ArrayVal]))
             {
-                CanAdd = false;
+                return;
             }
-
-            if(CanAdd)
-            {
-                CurrentTeam.TeamCharacters.Add(AllCharacters[ArrayVal]);
-                TMUI.LoadCharacterList();
-            }
-            else {return;}
+            CurrentTeam.TeamCharacters.Add(AllCharacters[ArrayVal]);
+            TMUI.ReCheckCurrentTeam(); // this is the problem
         }
         else {return;}
     }
@@ -64,8 +59,8 @@ public class WorldCharacterManager : MonoBehaviour
     public void RemoveFromTeam(int ArrayVal)
     {
         UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(TMUI.UnusedTeamUI[0].gameObject);
-        TMUI.RemoveUI(ArrayVal);
+        TMUI.RemoveUI(ArrayVal); // sets UI to null on the button
         CurrentTeam.TeamCharacters.Remove(CurrentTeam.TeamCharacters[ArrayVal]);
-        TMUI.LoadCharacterList();
+        TMUI.ReCheckPossibleTeam(); // reloads the buttons on the character selection
     }
 }

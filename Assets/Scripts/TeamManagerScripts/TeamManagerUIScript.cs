@@ -45,6 +45,12 @@ public class TeamManagerUIScript : MonoBehaviour
 
         for(int i = 0 ; i < WorldCharacterManager.AllCharacters.Count; i++)
         {
+            /*if (!CurrentTeam.TeamCharacters.Contains(WorldCharacterManager.AllCharacters[i]))
+            {
+                return;
+            }*/
+            Debug.Log(WorldCharacterManager.AllCharacters[i].CharacterName);
+
             UnusedTeamUI[i].gameObject.SetActive(true);
 
             UnusedTeamUI[i].CHARImage.sprite = WorldCharacterManager.AllCharacters[i].CharacterSprite;
@@ -61,6 +67,42 @@ public class TeamManagerUIScript : MonoBehaviour
             TeamUI[i].CHARNameTextBox.text = CurrentTeam.TeamCharacters[i].CharacterName;
             TeamUI[i].HPFillBar.fillAmount = (float)CurrentTeam.TeamCharacters[i].CharacterHP / (float)CurrentTeam.TeamCharacters[i].CharacterMAXHP;
             TeamUI[i].HPBarHPText.text = $"{CurrentTeam.TeamCharacters[i].CharacterHP.ToString()} / {CurrentTeam.TeamCharacters[i].CharacterMAXHP.ToString()}";
+        }
+    }
+
+    public void ReCheckCurrentTeam()
+    {
+        for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
+        {
+            TeamUI[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
+        {
+            TeamUI[i].gameObject.SetActive(true);
+
+            TeamUI[i].CHARImage.sprite = CurrentTeam.TeamCharacters[i].CharacterSprite;
+            TeamUI[i].CHARNameTextBox.text = CurrentTeam.TeamCharacters[i].CharacterName;
+            TeamUI[i].HPFillBar.fillAmount = (float)CurrentTeam.TeamCharacters[i].CharacterHP / (float)CurrentTeam.TeamCharacters[i].CharacterMAXHP;
+            TeamUI[i].HPBarHPText.text = $"{CurrentTeam.TeamCharacters[i].CharacterHP.ToString()} / {CurrentTeam.TeamCharacters[i].CharacterMAXHP.ToString()}";
+        }
+    }
+
+    public void ReCheckPossibleTeam()
+    {
+        for (int i = 0; i < WorldCharacterManager.AllCharacters.Count; i++)
+        {
+            UnusedTeamUI[i].gameObject.SetActive(false);
+        }
+
+        for (int i = 0; i < WorldCharacterManager.AllCharacters.Count; i++)
+        {
+            UnusedTeamUI[i].gameObject.SetActive(true);
+
+            UnusedTeamUI[i].CHARImage.sprite = WorldCharacterManager.AllCharacters[i].CharacterSprite;
+            UnusedTeamUI[i].CHARNameTextBox.text = WorldCharacterManager.AllCharacters[i].CharacterName;
+            UnusedTeamUI[i].HPFillBar.fillAmount = (float)WorldCharacterManager.AllCharacters[i].CharacterHP / (float)WorldCharacterManager.AllCharacters[i].CharacterMAXHP;
+            UnusedTeamUI[i].HPBarHPText.text = $"{WorldCharacterManager.AllCharacters[i].CharacterHP.ToString()} / {WorldCharacterManager.AllCharacters[i].CharacterMAXHP.ToString()}";
         }
     }
 
@@ -100,6 +142,7 @@ public class TeamManagerUIScript : MonoBehaviour
             if (WorldCharacterManager.AllCharacters[i] == CurrentTeam.TeamCharacters[j])
             {
                 UnusedTeamUI[i].gameObject.SetActive(true);
+                Debug.Log("ReEnable");
             }
         }
     }

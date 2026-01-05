@@ -8,7 +8,7 @@ public class BattleTrigger : MonoBehaviour
     {
         if(CurrentTeam.TeamCharacters.Count > 0)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(6);
         }
     }
 }
