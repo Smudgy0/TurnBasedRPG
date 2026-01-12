@@ -190,6 +190,18 @@ public class BattleManager : MonoBehaviour
         //MenuActive = true;
     }
 
+    public void ShowItems()
+    {
+        CUIM.PLAYERITEMBUTTONS.SetActive(true);
+        CUIM.PLAYERBUTTONS.SetActive(false);
+    }
+
+    public void HideItems()
+    {
+        CUIM.PLAYERITEMBUTTONS.SetActive(false);
+        CUIM.PLAYERBUTTONS.SetActive(true);
+    }
+
     void InitializeTargetOptions()
     {
         //Debug.Log("InitializeTargetOptions");
