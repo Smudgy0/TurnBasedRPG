@@ -1,24 +1,23 @@
 using System;
-using System.Collections;
 using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 using System.Collections.Generic;
 using UnityEngine.EventSystems;
-using UnityEditor;
-using Unity.VisualScripting;
 
 public class TeamManagerUIScript : MonoBehaviour
 {
     public static TeamManagerUIScript Instance;
-    public WorldCharacterManager WCM;
 
     public GameObject TeamSelectMenu;
-    //public GameObject TeamSelectMenuButton;
+
+    [SerializeField] private TeamManagerSlots UnusedTeamMemberButton, UsedTeamMemberButton;
+    [SerializeField] private Transform unusedTeamParent, usedTeamParent;
+    public List <TeamManagerSlots> TeamUI = new ();
+    public List<TeamManagerSlots> UnusedTeamUI = new();
+
     [SerializeField] TeamManagerSlots currentHighlightedSlot;
-    public TeamManagerSlots[] TeamUI;
-    public TeamManagerSlots[] UnusedTeamUI;
 
     public CharacterStatSheet CharStatSheet = new();
 
@@ -29,127 +28,97 @@ public class TeamManagerUIScript : MonoBehaviour
     {
         Instance = this;
     }
+
+    private void Start()
+    {
+        LoadCharacterList();
+    }
+
     public void LoadCharacterList()
     {
-        TeamSelectMenu.SetActive(true);
-
-        for(int i = 0 ; i < UnusedTeamUI.Length; i++)
-        {
-            UnusedTeamUI[i].gameObject.SetActive(false);
-        }
-
-        for(int i = 0 ; i < TeamUI.Length; i++)
-        {
-            TeamUI[i].gameObject.SetActive(false);
-        }
-
-        for(int i = 0 ; i < WorldCharacterManager.AllCharacters.Count; i++)
-        {
-            /*if (!CurrentTeam.TeamCharacters.Contains(WorldCharacterManager.AllCharacters[i]))
-            {
-                return;
-            }*/
-            Debug.Log(WorldCharacterManager.AllCharacters[i].CharacterName);
-
-            UnusedTeamUI[i].gameObject.SetActive(true);
-
-            UnusedTeamUI[i].CHARImage.sprite = WorldCharacterManager.AllCharacters[i].CharacterSprite;
-            UnusedTeamUI[i].CHARNameTextBox.text = WorldCharacterManager.AllCharacters[i].CharacterName;
-            UnusedTeamUI[i].HPFillBar.fillAmount = (float)WorldCharacterManager.AllCharacters[i].CharacterHP / (float)WorldCharacterManager.AllCharacters[i].CharacterMAXHP;
-            UnusedTeamUI[i].HPBarHPText.text = $"{WorldCharacterManager.AllCharacters[i].CharacterHP.ToString()} / {WorldCharacterManager.AllCharacters[i].CharacterMAXHP.ToString()}";
-        }
-
-        for(int i = 0 ; i < CurrentTeam.TeamCharacters.Count; i++)
-        {
-            TeamUI[i].gameObject.SetActive(true);
-
-            TeamUI[i].CHARImage.sprite = CurrentTeam.TeamCharacters[i].CharacterSprite;
-            TeamUI[i].CHARNameTextBox.text = CurrentTeam.TeamCharacters[i].CharacterName;
-            TeamUI[i].HPFillBar.fillAmount = (float)CurrentTeam.TeamCharacters[i].CharacterHP / (float)CurrentTeam.TeamCharacters[i].CharacterMAXHP;
-            TeamUI[i].HPBarHPText.text = $"{CurrentTeam.TeamCharacters[i].CharacterHP.ToString()} / {CurrentTeam.TeamCharacters[i].CharacterMAXHP.ToString()}";
-        }
+        //ReCheckCurrentTeam(); At the start of the game you have nobody on your team so only re-enable when adding saving
+        ReCheckPossibleTeam();
     }
 
+    /// <summary>
+    /// Code resets the current team UI to make sure the right team members are showing.
+    /// </summary>
     public void ReCheckCurrentTeam()
     {
-        for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
+        // disables the character buttons in the 3x1 menu in the team manager
+        foreach (var team in TeamUI)
         {
-            TeamUI[i].gameObject.SetActive(false);
+            Debug.Log("DELETE THE BUTTON");
+            Destroy(team.gameObject);
         }
+        TeamUI.Clear();
 
-        for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
+        for (int i = 0; i < WorldCharacterManager.TeamCharacters.Count; i++)
         {
-            TeamUI[i].gameObject.SetActive(true);
+            TeamManagerSlots usedButton = Instantiate(UsedTeamMemberButton, usedTeamParent);
+            TeamUI.Add(usedButton);
 
-            TeamUI[i].CHARImage.sprite = CurrentTeam.TeamCharacters[i].CharacterSprite;
-            TeamUI[i].CHARNameTextBox.text = CurrentTeam.TeamCharacters[i].CharacterName;
-            TeamUI[i].HPFillBar.fillAmount = (float)CurrentTeam.TeamCharacters[i].CharacterHP / (float)CurrentTeam.TeamCharacters[i].CharacterMAXHP;
-            TeamUI[i].HPBarHPText.text = $"{CurrentTeam.TeamCharacters[i].CharacterHP.ToString()} / {CurrentTeam.TeamCharacters[i].CharacterMAXHP.ToString()}";
+            usedButton.CHARImage.sprite = WorldCharacterManager.TeamCharacters[i].CharacterSprite;
+            usedButton.CHARNameTextBox.text = WorldCharacterManager.TeamCharacters[i].CharacterName;
+            usedButton.HPFillBar.fillAmount = (float)WorldCharacterManager.TeamCharacters[i].CharacterHP / (float)WorldCharacterManager.TeamCharacters[i].CharacterMAXHP;
+            usedButton.HPBarHPText.text = $"{WorldCharacterManager.TeamCharacters[i].CharacterHP.ToString()} / {WorldCharacterManager.TeamCharacters[i].CharacterMAXHP.ToString()}";
         }
     }
 
+    /// <summary>
+    /// Code resets the 3x3 team UI to show characters which the player can choose.
+    /// </summary>
     public void ReCheckPossibleTeam()
     {
-        for (int i = 0; i < WorldCharacterManager.AllCharacters.Count; i++)
+        foreach (var team in UnusedTeamUI)
         {
-            UnusedTeamUI[i].gameObject.SetActive(false);
+            Destroy(team.gameObject);
         }
+        UnusedTeamUI.Clear();
 
-        for (int i = 0; i < WorldCharacterManager.AllCharacters.Count; i++)
+        for (int i = 0; i < WorldCharacterManager.UnusedTeamCharacters.Count; i++)
         {
-            UnusedTeamUI[i].gameObject.SetActive(true);
-
-            UnusedTeamUI[i].CHARImage.sprite = WorldCharacterManager.AllCharacters[i].CharacterSprite;
-            UnusedTeamUI[i].CHARNameTextBox.text = WorldCharacterManager.AllCharacters[i].CharacterName;
-            UnusedTeamUI[i].HPFillBar.fillAmount = (float)WorldCharacterManager.AllCharacters[i].CharacterHP / (float)WorldCharacterManager.AllCharacters[i].CharacterMAXHP;
-            UnusedTeamUI[i].HPBarHPText.text = $"{WorldCharacterManager.AllCharacters[i].CharacterHP.ToString()} / {WorldCharacterManager.AllCharacters[i].CharacterMAXHP.ToString()}";
+            TeamManagerSlots unusedButton = Instantiate(UnusedTeamMemberButton, unusedTeamParent);
+            UnusedTeamUI.Add(unusedButton);
+            UnusedTeamUI[i].CHARImage.sprite = WorldCharacterManager.UnusedTeamCharacters[i].CharacterSprite;
+            UnusedTeamUI[i].CHARNameTextBox.text = WorldCharacterManager.UnusedTeamCharacters[i].CharacterName;
+            UnusedTeamUI[i].HPFillBar.fillAmount = (float)WorldCharacterManager.UnusedTeamCharacters[i].CharacterHP / (float)WorldCharacterManager.UnusedTeamCharacters[i].CharacterMAXHP;
+            UnusedTeamUI[i].HPBarHPText.text = $"{WorldCharacterManager.UnusedTeamCharacters[i].CharacterHP.ToString()} / {WorldCharacterManager.UnusedTeamCharacters[i].CharacterMAXHP.ToString()}";
         }
     }
 
-    public void CloseCharacterList()
+    /// <summary>
+    /// Hides the team selection menu.
+    /// </summary>
+    public void ToggleCharacterList()
     {
-        TeamSelectMenu.SetActive(false);
+        TeamSelectMenu.SetActive(!TeamSelectMenu.activeSelf);
     }
 
+    /// <summary>
+    /// sets UI in a box (ArrayVal number is which box in the list) it sets to null
+    /// </summary>
     public void RemoveUI(int ArrayVal)
     {
         TeamUI[ArrayVal].CHARImage.sprite = null;
         TeamUI[ArrayVal].CHARNameTextBox.text = "---";
         TeamUI[ArrayVal].HPFillBar.fillAmount = 1;
         TeamUI[ArrayVal].HPBarHPText.text = "? / ?";
+
+        //ReCheckCurrentTeam();
     }
 
     public void ManageTeamMenu(InputAction.CallbackContext context)
     {
-        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(UnusedTeamUI[0].gameObject);
+        //EventSystem.current.SetSelectedGameObject(UnusedTeamUI[0].gameObject);
         Debug.Log("ManageTeamMenu Read");
-        if (context.performed && MenuOpen == false)
-        {
-            LoadCharacterList();
-            MenuOpen = true; 
-        }
-        else if (context.performed && MenuOpen == true)
-        {
-            MenuOpen = false; 
-            CloseCharacterList();
-        }
-    }
-
-    public void ReEnableButtons(int j)
-    {
-        for (int i = 0; i < WorldCharacterManager.AllCharacters.Count; i++)
-        {
-            if (WorldCharacterManager.AllCharacters[i] == CurrentTeam.TeamCharacters[j])
-            {
-                UnusedTeamUI[i].gameObject.SetActive(true);
-                Debug.Log("ReEnable");
-            }
-        }
+        ToggleCharacterList();
     }
 
     private void Update()
     {
-        currentHighlightedSlot = EventSystem.current.currentSelectedGameObject.GetComponent<TeamManagerSlots>();
+        if(EventSystem.current.currentSelectedGameObject != null)
+            currentHighlightedSlot = EventSystem.current.currentSelectedGameObject.GetComponent<TeamManagerSlots>();
         if (currentHighlightedSlot != null)
         {
             TempName = currentHighlightedSlot.CHARNameTextBox.text;

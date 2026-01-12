@@ -7,60 +7,71 @@ public class WorldCharacterManager : MonoBehaviour
 {
     public static WorldCharacterManager Instance;
 
-    public List<Allies> CharacterDataLog = new();
-    public static List<Allies> AllCharacters = new();
+    public List<Allies> CharacterDataLog = new(); // inspector assignable characters list
+
+    public static List<Allies> AllCharacters = new(); // static list of character clones
     public List<Allies> DebugAllCharacters = new();
-    //public List<Characters> TeamCharacters = new();
+
+    public static List<Allies> TeamCharacters = new(); // static list of team character clones
+    public List<Allies> DebugTeamCharacters = new();
+
+    public static List<Allies> UnusedTeamCharacters = new(); // static list of team character clones
+    public List<Allies> DebugUTeamCharacters = new();
+
+
     public TeamManagerUIScript TMUI;
-    private bool CanAdd = true;
-    private static bool CharsLoaded = false;
 
     void Awake()
     {
         Instance = this;
 
-        if (CharsLoaded == false)
+        for (int i = 0; i < CharacterDataLog.Count; i++)
         {
-            for(int i = 0; i < CharacterDataLog.Count; i++)
-            {
-                AllCharacters.Add(Instantiate(CharacterDataLog[i]));
-            }
-
-            //FoundTeam();
-            CharsLoaded = true;
+            AllCharacters.Add(Instantiate(CharacterDataLog[i]));
         }
+        UnusedTeamCharacters = AllCharacters;
+        //FoundTeam();
 
-        for(int i = 0; i < AllCharacters.Count; i++)
+        for (int i = 0; i < AllCharacters.Count; i++)
         {
             DebugAllCharacters.Add(AllCharacters[i]);
         }
     }
 
+    private void Update()
+    {
+        DebugTeamCharacters = TeamCharacters;
+        DebugUTeamCharacters = UnusedTeamCharacters;
+    }
+
     void FoundTeam()
     {
-        CurrentTeam.TeamCharacters.Add(AllCharacters[0]);
+        TeamCharacters.Add(AllCharacters[0]);
     }
 
     public void AddToTeam(int ArrayVal)
     {
-        CanAdd = true;
-        if(CurrentTeam.TeamCharacters.Count < 3)
+        if(TeamCharacters.Count < 3)
         {
-            if (CurrentTeam.TeamCharacters.Contains(AllCharacters[ArrayVal]))
+            if (TeamCharacters.Contains(AllCharacters[ArrayVal]))
             {
+                Debug.Log("Already have team member on my team!");
                 return;
             }
-            CurrentTeam.TeamCharacters.Add(AllCharacters[ArrayVal]);
+            Debug.Log("Added to team");
+            TeamCharacters.Add(UnusedTeamCharacters[ArrayVal]);
+            UnusedTeamCharacters.RemoveAt(ArrayVal);
             TMUI.ReCheckCurrentTeam(); // this is the problem
+            TMUI.ReCheckPossibleTeam(); // reloads the buttons on the character selection
         }
         else {return;}
     }
 
     public void RemoveFromTeam(int ArrayVal)
     {
-        UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(TMUI.UnusedTeamUI[0].gameObject);
-        TMUI.RemoveUI(ArrayVal); // sets UI to null on the button
-        CurrentTeam.TeamCharacters.Remove(CurrentTeam.TeamCharacters[ArrayVal]);
+        UnusedTeamCharacters.Add(TeamCharacters[ArrayVal]);
+        TeamCharacters.RemoveAt(ArrayVal);
         TMUI.ReCheckPossibleTeam(); // reloads the buttons on the character selection
+        TMUI.ReCheckCurrentTeam(); // this is the problem
     }
 }
