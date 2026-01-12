@@ -5,6 +5,7 @@ public class Item : ScriptableObject
 {
     public string ItemName;
     public string ItemDescription;
+    public Sprite ItemSprite;
 
     public ItemType itemType;
 

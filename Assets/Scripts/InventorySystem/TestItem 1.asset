@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: TestItem 1
   m_EditorClassIdentifier: 
   ItemName: Test
-  ItemDescription: 
+  ItemDescription: Test Des
+  ItemSprite: {fileID: 21300000, guid: df27b8087a081c4449ca118cef981207, type: 3}
   itemType: 1

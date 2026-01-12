@@ -3,18 +3,35 @@ using UnityEngine;
 public class InventorySystem : MonoBehaviour
 {
     public static InventorySystem Instance;
-
+    [SerializeField] Item testItem;
     [SerializeField] Item[] Inventory;
     [SerializeField] int[] AmountCarried;
 
     [SerializeField] Item EmptyItem;
 
+    public int SelectedItemIndex;
+
+    InventorySystemUI inventorySystemUI;
+
     private void Awake()
     {
         Instance = this;
+        inventorySystemUI = GetComponent<InventorySystemUI>();
+    }
+
+    private void Start()
+    {
+        AddItem(testItem, 5);
     }
 
     public Item[] GetInventory() => Inventory;
+    public int[] GetItemQuantity() => AmountCarried;
+
+    public void SelectItem(int SelectedIndex)
+    {
+        SelectedItemIndex = SelectedIndex;
+        inventorySystemUI.SetSelectedItemUI(Inventory[SelectedIndex].ItemName, Inventory[SelectedIndex].ItemDescription);
+    }
 
     public bool AddItem(Item ItemToAdd, int AmountToAdd)
     {
