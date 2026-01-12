@@ -51,7 +51,7 @@ public class CombatUIManager : MonoBehaviour
         }
         else
         {
-            enemyStats[characterSlot - CurrentTeam.TeamCharacters.Count].CHARSFieldSPRITE.gameObject.SetActive(character.CharacterHP > 0);
+            enemyStats[characterSlot - WorldCharacterManager.TeamCharacters.Count].CHARSFieldSPRITE.gameObject.SetActive(character.CharacterHP > 0);
         }
     }
 

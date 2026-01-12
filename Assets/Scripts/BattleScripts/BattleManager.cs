@@ -43,7 +43,7 @@ public class BattleManager : MonoBehaviour
 
         Debug.Log("Awake");
 
-        for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
+        for (int i = 0; i < WorldCharacterManager.TeamCharacters.Count; i++)
         {
             TM.CHARS[i].Dead = false;
             BattleOrder.Add(TM.CHARS[i]);
@@ -329,7 +329,7 @@ public class BattleManager : MonoBehaviour
 
             BattleOrder[0].DisableDefence();
             BattleOrder[0].Defending = false;
-            EnemyTargetPicker = Random.Range(0,CurrentTeam.TeamCharacters.Count);
+            EnemyTargetPicker = Random.Range(0,WorldCharacterManager.TeamCharacters.Count);
 
             if(TM.CHARS[EnemyTargetPicker].Defending == false) // if player does not defend, their characters defence is not taken into account
             {

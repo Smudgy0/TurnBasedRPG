@@ -15,9 +15,9 @@ public class TeamManager : MonoBehaviour
 
     public void SetTeams()
     {
-        for (int i = 0; i < CurrentTeam.TeamCharacters.Count; i++)
+        for (int i = 0; i < WorldCharacterManager.TeamCharacters.Count; i++)
         {
-            CHARS.Add(CurrentTeam.TeamCharacters[i]);
+            CHARS.Add(WorldCharacterManager.TeamCharacters[i]);
         }
 
         for (int i = 0; i < ENEMIES.Count; i++)
