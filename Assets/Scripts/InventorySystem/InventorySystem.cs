@@ -1,0 +1,50 @@
+using UnityEngine;
+
+public class InventorySystem : MonoBehaviour
+{
+    public static InventorySystem Instance;
+
+    [SerializeField] Item[] Inventory;
+    [SerializeField] int[] AmountCarried;
+
+    [SerializeField] Item EmptyItem;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
+
+    public Item[] GetInventory() => Inventory;
+
+    public bool AddItem(Item ItemToAdd, int AmountToAdd)
+    {
+        for (int i = 0; i < Inventory.Length; i++) 
+        {
+            if (Inventory[i] == ItemToAdd)
+            {
+                AmountCarried[i] = Mathf.Clamp(AmountCarried[i] + AmountToAdd, 0, 99);
+                return true;
+            }
+            if (Inventory[i].itemType == ItemType.None)
+            {
+                Inventory[i] = ItemToAdd;
+                AmountCarried[i] = Mathf.Clamp(AmountCarried[i] + AmountToAdd, 0, 99);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void RemoveItem(int ItemIndex, int AmountToRemove)
+    {
+        if (AmountCarried[ItemIndex] - AmountToRemove > 0)
+        {
+            AmountCarried[ItemIndex]-= AmountToRemove;
+        }
+        else
+        {
+            Inventory[ItemIndex] = EmptyItem;
+            AmountCarried[ItemIndex] = 0;
+        }
+    }
+}
