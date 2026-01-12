@@ -1,7 +1,8 @@
+using System;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System;
 
 public class CombatUIManager : MonoBehaviour
 {
@@ -22,9 +23,17 @@ public class CombatUIManager : MonoBehaviour
 
     //[SerializeField] public Image[] CHARSHPBARUI;
 
+    [SerializeField] public int FakeItemAmount;
+
+    [SerializeField] private GameObject ItemButtonsParentObject;
+    [SerializeField] private Transform ItemButtonsParent;
+    [SerializeField] private GameObject ItemButton;
+    public List<GameObject> ItemUI = new();
+
     public Image[] TURNSYSTEMSPRITES;
     public GameObject PLAYERBUTTONS;
     public GameObject PLAYERTARGETBUTTONS;
+    public GameObject PLAYERITEMBUTTONS;
 
     public GameObject COMBATTEXTINFOPARENTOBJECT;
     public TMP_Text COMBATTEXTINFO;
@@ -57,11 +66,24 @@ public class CombatUIManager : MonoBehaviour
 
     public void Initialize()
     {
+        ItemUI.Clear();
+
         InitializeTURNUI();
         InitializeCHARS();
         InitializeENEMIES();
         InitializeCHARSImages();
+        InitializeItemButtons();
     }
+
+    public void InitializeItemButtons()
+    {
+        for (int i = 0; i < 5; i++) // replace 5 with inventory size
+        {
+            GameObject usedButton = Instantiate(ItemButton, ItemButtonsParent);
+            ItemUI.Add(usedButton);
+        }
+    }
+
 
     void InitializeCHARSImages()
     {
