@@ -15,6 +15,10 @@ public class SceneLoader : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// gjcchcg
+    /// </summary>
+    /// <returns></returns>
     IEnumerator SmallDelay()
     {
         PlayerMovement.sceneStartPos = positionOveride;

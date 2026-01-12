@@ -31,6 +31,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "QuestMenu",
+                    "type": "Button",
+                    "id": "c3ce661e-5bdb-4b38-a0c2-577663416d28",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -196,6 +205,17 @@
                     "processors": "",
                     "groups": ";Keyboard&Mouse",
                     "action": "CloseTeamMenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44eebf27-a2ed-4b01-b2f8-b859b605c77c",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "QuestMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
