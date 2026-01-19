@@ -15,6 +15,7 @@ public class InventorySystem : MonoBehaviour
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         Instance = this;
         inventorySystemUI = GetComponent<InventorySystemUI>();
     }
@@ -26,6 +27,7 @@ public class InventorySystem : MonoBehaviour
 
     public Item[] GetInventory() => Inventory;
     public int[] GetItemQuantity() => AmountCarried;
+    public bool CheckIfSlotIsEmpty(int slotIndex) => Inventory[slotIndex] == EmptyItem;
 
     public void SelectItem(int SelectedIndex)
     {

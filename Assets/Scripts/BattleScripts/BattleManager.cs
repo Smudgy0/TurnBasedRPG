@@ -10,6 +10,8 @@ public class BattleManager : MonoBehaviour
 {
     public TeamManager TM;
     public CombatUIManager CUIM;
+    private int ItemToBeUsed;
+
     public GameObject[] CHOOSETARGETENEMY;
     public TMP_Text[] CHOOSETARGETENEMYTEXT;
 
@@ -27,6 +29,8 @@ public class BattleManager : MonoBehaviour
 
     public int AlliedDeaths;
     public int EnemyDeaths;
+
+    public int TempArrayMarker;
 
     public GameObject BATTLEENDBUTTON;
     public TMP_Text BATTLEENDTEXT;
@@ -115,6 +119,41 @@ public class BattleManager : MonoBehaviour
         UpdateBattleOrder();
     }
 
+    public void HealCharButton(int CharChosen)
+    {
+        HealChar(InventorySystem.Instance.GetInventory()[ItemToBeUsed].EffectStrength, CharChosen);
+        //Debug.Log(WorldCharacterManager.TeamCharacters[CharChosen].ToString());
+        InventorySystem.Instance.RemoveItem(ItemToBeUsed, 1);
+        CUIM.ExitHighLightItem();
+        ItemToBeUsed = 0;
+    }
+
+    public void HealChar(int HealAmount, int CharChosen) // uses item to heal character
+    {
+        TM.CHARS[CharChosen].CharacterHP += HealAmount;
+
+        if (TM.CHARS[CharChosen].CharacterHP > TM.CHARS[CharChosen].CharacterMAXHP)
+        {
+            TM.CHARS[CharChosen].CharacterHP = TM.CHARS[CharChosen].CharacterMAXHP;
+        }
+
+        CUIM.COMBATTEXTINFO.text = $"{TM.CHARS[CharChosen].CharacterName} Heals for {HealAmount}!";
+        CUIM.PLAYERITEMBUTTONS.SetActive(false);
+        CUIM.PickCharItemButtons.SetActive(false);
+        CUIM.BackGroundStuff[0].SetActive(true);
+        CUIM.BackGroundStuff[1].SetActive(true);
+        CUIM.PLAYERBUTTONS.SetActive(true);
+
+        UpdateBattleOrder();
+    }
+
+    public void HideNShowItemsToPickChar(int itemIndex)
+    {
+        ItemToBeUsed = itemIndex;
+        CUIM.PLAYERITEMBUTTONS.SetActive(!CUIM.PLAYERITEMBUTTONS.activeSelf);
+        CUIM.PickCharItemButtons.SetActive(!CUIM.PickCharItemButtons.activeSelf);
+    }
+
     public void Flee()
     {
         BattleOrder[0].DisableDefence();
@@ -192,14 +231,26 @@ public class BattleManager : MonoBehaviour
 
     public void ShowItems()
     {
+
+        CUIM.InitializeItemButtons();
         CUIM.PLAYERITEMBUTTONS.SetActive(true);
         CUIM.PLAYERBUTTONS.SetActive(false);
+
+        for (int i = 0; i < CUIM.BackGroundStuff.Length; i++)
+        {
+            CUIM.BackGroundStuff[i].SetActive(false);
+        }
     }
 
     public void HideItems()
     {
         CUIM.PLAYERITEMBUTTONS.SetActive(false);
         CUIM.PLAYERBUTTONS.SetActive(true);
+
+        for (int i = 0; i < CUIM.BackGroundStuff.Length; i++)
+        {
+            CUIM.BackGroundStuff[i].SetActive(true);
+        }
     }
 
     void InitializeTargetOptions()

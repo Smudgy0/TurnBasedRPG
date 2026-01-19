@@ -9,6 +9,8 @@ public class Item : ScriptableObject
 
     public ItemType itemType;
 
+    public int EffectStrength;
+
 }
     public enum ItemType
     {

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class CombatUIManager : MonoBehaviour
@@ -27,19 +28,32 @@ public class CombatUIManager : MonoBehaviour
 
     [SerializeField] private GameObject ItemButtonsParentObject;
     [SerializeField] private Transform ItemButtonsParent;
-    [SerializeField] private GameObject ItemButton;
-    public List<GameObject> ItemUI = new();
+    [SerializeField] private ItemSlotManager ItemButton;
+    public List<ItemSlotManager> ItemUI = new();
 
     public Image[] TURNSYSTEMSPRITES;
     public GameObject PLAYERBUTTONS;
     public GameObject PLAYERTARGETBUTTONS;
     public GameObject PLAYERITEMBUTTONS;
 
+    public GameObject[] BackGroundStuff;
+    public GameObject PickCharItemButtons;
+
     public GameObject COMBATTEXTINFOPARENTOBJECT;
     public TMP_Text COMBATTEXTINFO;
 
+    public TMP_Text ITEMNAMETEXT;
+    public TMP_Text ITEMDESCTEXT;
+    public TMP_Text ITEMAMOUNTTEXT;
+
+    public TMP_Text[] CHARITEMSELECTARRAY;
+
     [SerializeField] CharacterStatDisplay[] playerStats;
     [SerializeField] CharacterStatDisplay[] enemyStats;
+
+    [SerializeField] ItemSlotManager currentHighlightedSlot;
+    public string TempDesc;
+    public int TempAmount;
 
     public void UIMUpdateCharacterSprites(int characterSlot, Characters character)
     {
@@ -66,6 +80,12 @@ public class CombatUIManager : MonoBehaviour
 
     public void Initialize()
     {
+        ITEMNAMETEXT.text = "---";
+        TempDesc = "---";
+        TempAmount = 0;
+        ITEMDESCTEXT.text = TempDesc;
+        ITEMAMOUNTTEXT.text = TempAmount.ToString();
+
         ItemUI.Clear();
 
         InitializeTURNUI();
@@ -77,10 +97,36 @@ public class CombatUIManager : MonoBehaviour
 
     public void InitializeItemButtons()
     {
-        for (int i = 0; i < 5; i++) // replace 5 with inventory size
+        foreach(ItemSlotManager ItemButton in ItemUI)
         {
-            GameObject usedButton = Instantiate(ItemButton, ItemButtonsParent);
-            ItemUI.Add(usedButton);
+            Destroy(ItemButton.gameObject);
+        }
+        ItemUI.Clear();
+            for (int i = 0; i < InventorySystem.Instance.GetInventory().Length; i++) // replace 5 with inventory size
+            {
+                Debug.Log(i);
+                if (InventorySystem.Instance.GetItemQuantity()[i] > 0 && InventorySystem.Instance.GetInventory()[i].itemType == ItemType.Consumables)
+                {
+                    ItemSlotManager usedButton = Instantiate(ItemButton, ItemButtonsParent);
+                    ItemUI.Add(usedButton);
+                    usedButton.ItemText.text = InventorySystem.Instance.GetInventory()[i].ItemName;
+                    usedButton.ItemDesc = InventorySystem.Instance.GetInventory()[i].ItemDescription;
+                    usedButton.ItemAmount = InventorySystem.Instance.GetItemQuantity()[i];
+
+                    /*
+                    if(usedButton.ItemText.text == "Lesser Potion")
+                    {
+                        usedButton.ItemHealingEffect = 500;
+                    }
+                    */
+
+                    usedButton.MyIndexNum = i;
+                }
+            }
+
+        for(int i = 0; i < CHARITEMSELECTARRAY.Length; i++)
+        {
+            CHARITEMSELECTARRAY[i].text = WorldCharacterManager.TeamCharacters[i].CharacterName;
         }
     }
 
@@ -135,6 +181,35 @@ public class CombatUIManager : MonoBehaviour
             playerStats[i].CHARSHPBARUI.fillAmount = (float)TM.CHARS[i].CharacterHP / (float)TM.CHARS[i].CharacterMAXHP;
             playerStats[i].CHARSHPUI.text = $"{TM.CHARS[i].CharacterHP.ToString()} / {TM.CHARS[i].CharacterMAXHP.ToString()}";
         }
+    }
+
+    public void HighLightItem(GameObject ItemButton)
+    {
+        EventSystem.current.SetSelectedGameObject(ItemButton);
+        currentHighlightedSlot = EventSystem.current.currentSelectedGameObject.GetComponent<ItemSlotManager>();
+        ITEMNAMETEXT.text = "---";
+        TempDesc = "---";
+        TempAmount = 0;
+        if (!InventorySystem.Instance.CheckIfSlotIsEmpty(currentHighlightedSlot.MyIndexNum))
+        {
+            ITEMNAMETEXT.text = currentHighlightedSlot.ItemText.text;
+            TempDesc = currentHighlightedSlot.ItemDesc;
+            TempAmount = currentHighlightedSlot.ItemAmount;
+            BM.TempArrayMarker = currentHighlightedSlot.MyIndexNum;
+        }
+
+        ITEMDESCTEXT.text = TempDesc;
+        ITEMAMOUNTTEXT.text = TempAmount.ToString();
+
+    }
+
+    public void ExitHighLightItem()
+    {
+        ITEMNAMETEXT.text = "---";
+        TempDesc = "---";
+        TempAmount = 0;
+        ITEMDESCTEXT.text = TempDesc;
+        ITEMAMOUNTTEXT.text = TempAmount.ToString();
     }
 }
 

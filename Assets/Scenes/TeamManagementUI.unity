@@ -190,6 +190,7 @@ Transform:
   - {fileID: 1873855887}
   - {fileID: 1446536544}
   - {fileID: 1308280338}
+  - {fileID: 824534963}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &62472736
@@ -1202,6 +1203,99 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: -400}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &824534962
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 824534963}
+  - component: {fileID: 824534965}
+  - component: {fileID: 824534964}
+  m_Layer: 0
+  m_Name: InventoryManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &824534963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824534962}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 17243013}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &824534964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824534962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 494e7c94a4390e141b99f9b0b91607e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testItem: {fileID: 11400000, guid: 79c284b3c5cd59c44a1e4dde27038ba0, type: 2}
+  Inventory:
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  - {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  AmountCarried: 00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  EmptyItem: {fileID: 11400000, guid: 2a2d5f8f3a2f99b4d8c7e24ef31d1419, type: 2}
+  SelectedItemIndex: 0
+--- !u!114 &824534965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 824534962}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a200e15372376f745a27bcb790e05084, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  inventoryMenu: {fileID: 0}
+  inventoryParent: {fileID: 0}
+  inventorySlot: {fileID: 0}
+  SpawnedInventorySlots: []
+  SelectedItemName: {fileID: 0}
+  SelectedItemDescription: {fileID: 0}
 --- !u!1 &860036535
 GameObject:
   m_ObjectHideFlags: 0
