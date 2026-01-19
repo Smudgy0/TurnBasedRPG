@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class QuestMenuController : MonoBehaviour
 {
@@ -9,10 +10,9 @@ public class QuestMenuController : MonoBehaviour
         MenuCanvas.SetActive(false);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void QuestMenu(InputAction.CallbackContext context)
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (context.performed)
         {
             MenuCanvas.SetActive(!MenuCanvas.activeSelf);
         }

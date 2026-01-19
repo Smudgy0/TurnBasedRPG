@@ -15,7 +15,22 @@ MonoBehaviour:
   npcName: Test NPC
   dialogueLines:
   - Hi there
-  - How are you?
+  - Can you help slay some nearby monsters?
+  - Thank you very much
+  - Oh...ok then...
+  - Good luck with those monsters
+  - Thank you for slaying those monsters
   autoProgressLines: 0100
+  endDialogueLines: 000101010101
   autoProgressDelay: 1.5
   typingSpeed: 0.05
+  choices:
+  - dialogueIndex: 1
+    choices:
+    - Yes
+    - No
+    nextDialogueIndexes: 0200000003000000
+    givesQuest: 0100
+  questInProgressIndex: 4
+  questCompletedIndex: 5
+  quest: {fileID: 11400000, guid: 13a67117c9be4cb478bd7c0ff84ee780, type: 2}
