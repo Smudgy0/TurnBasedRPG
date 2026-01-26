@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class InventorySystemUI : MonoBehaviour
 {
@@ -14,17 +15,9 @@ public class InventorySystemUI : MonoBehaviour
 
     [SerializeField] TMP_Text SelectedItemName;
     [SerializeField] TMP_Text SelectedItemDescription;
+    [SerializeField] Image SelectedItemIcon;
 
-    private void Start()
-    {
-        InvokeRepeating("TestUI", 5, 5);
-    }
 
-    void TestUI()
-    {
-        ResetInventoryUI();
-        inventoryMenu.SetActive(!inventoryMenu.activeSelf);
-    }
 
     public void OnOpenInventory(InputAction.CallbackContext context)
     {
@@ -35,10 +28,12 @@ public class InventorySystemUI : MonoBehaviour
         }
     }
 
-    public void SetSelectedItemUI(string _SelectedItemName,string _SelectedItemDescription)
+    public void SetSelectedItemUI(string _SelectedItemName,string _SelectedItemDescription, Sprite ItemIcon)
     {
         SelectedItemName.SetText(_SelectedItemName);
         SelectedItemDescription.SetText(_SelectedItemDescription);
+        SelectedItemIcon.gameObject.SetActive(!InventorySystem.Instance.CheckIfSlotIsEmpty(InventorySystem.Instance.SelectedItemIndex));
+        SelectedItemIcon.sprite = ItemIcon;
     }
 
     public void ResetInventoryUI()
