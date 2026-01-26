@@ -358,7 +358,13 @@ public class BattleManager : MonoBehaviour
 
     public void RevertToMap()
     {
+        Rewards();
         SceneManager.LoadScene(1);
+    }
+
+    public void Rewards()
+    {
+
     }
 
     public void CharacterDeath(int whichSlot, int currentPositionInBattleOrder, Characters character)
