@@ -356,7 +356,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
-    public void RevertToMap()
+    public void RevertToMap() // button which appears after the player wins or loses a battle.
     {
         Rewards();
         SceneManager.LoadScene(1);

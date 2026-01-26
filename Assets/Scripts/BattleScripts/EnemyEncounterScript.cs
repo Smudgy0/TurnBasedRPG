@@ -1,22 +1,49 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class EnemyEncounterScript : MonoBehaviour
 {
-    bool EnemyEcounterBool = false;
-    public List<Enemies> EnemyLibary = new();
+    public bool EnemyEcounterBool = false;
+    static bool EditorConverted = false;
 
-    private void OnCollisionStay2D(Collision2D collision)
+    public List<Enemies> UnityEditorEnemyLibary = new();
+    static List<Enemies> EnemyLibary = new();
+    static public List<Enemies> EESEnemyTeam = new();
+
+    public BattleTrigger BT;
+    public int RandomEncounterNum = 0;
+
+    int EnemySlot1;
+    int EnemySlot2;
+    int EnemySlot3;
+
+    private void Start()
     {
-        if(collision.otherCollider.tag == "GrassLands")
+        foreach (Enemies EESEnemyTeam in EESEnemyTeam)
+        {
+            Destroy(EESEnemyTeam);
+        }
+        EESEnemyTeam.Clear();
+
+        for (int i = 0; i < UnityEditorEnemyLibary.Count; i++)
+        {
+            EnemyLibary.Add(Instantiate(UnityEditorEnemyLibary[i]));
+        }
+        EditorConverted = true;
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "GrassLands")
         {
             EnemyEcounterBool = true;
         }
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.otherCollider.tag == "GrassLands")
+        if (collision.tag == "GrassLands")
         {
             EnemyEcounterBool = false;
         }
@@ -27,15 +54,28 @@ public class EnemyEncounterScript : MonoBehaviour
     {
         if (EnemyEcounterBool == true) 
         { 
-            int RandomEncounterNum = Random.Range(0, 100);
-            int EnemySlot1 = Random.Range(0, EnemyLibary.Count);
-            int EnemySlot2 = Random.Range(0, EnemyLibary.Count);
-            int EnemySlot3 = Random.Range(0, EnemyLibary.Count);
+            RandomEncounterNum = Random.Range(0, 1000000);
+            EnemySlot1 = Random.Range(0, EnemyLibary.Count);
+            EnemySlot2 = Random.Range(0, EnemyLibary.Count);
+            EnemySlot3 = Random.Range(0, EnemyLibary.Count);
 
-            if (RandomEncounterNum > 90)
+            Debug.Log("Read RandomEncounterNum and EnemySelect");
+
+            if (RandomEncounterNum > 999000)
             {
-
+                Debug.Log("Read StartFightFunction Trigger");
+                StartFight();
             }
         }
+    }
+
+    void StartFight()
+    {
+        Debug.Log("Read StartFightFunction");
+        EESEnemyTeam.Add(EnemyLibary[EnemySlot1]);
+        EESEnemyTeam.Add(EnemyLibary[EnemySlot2]);
+        EESEnemyTeam.Add(EnemyLibary[EnemySlot3]);
+
+        BT.TriggerFight();
     }
 }

@@ -30,12 +30,12 @@ public class WorldCharacterManager : MonoBehaviour
             AllCharacters.Add(Instantiate(CharacterDataLog[i]));
         }
         UnusedTeamCharacters = AllCharacters;
-        //FoundTeam();
 
         for (int i = 0; i < AllCharacters.Count; i++)
         {
             DebugAllCharacters.Add(AllCharacters[i]);
         }
+        //FoundTeam();
     }
 
     private void Update()

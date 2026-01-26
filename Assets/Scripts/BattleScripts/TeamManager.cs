@@ -6,6 +6,8 @@ public class TeamManager : MonoBehaviour
     [SerializeField] public List<Allies> CHARS = new();
     [SerializeField] public List<Enemies> ENEMIES = new();
 
+    public EnemyEncounterScript EES;
+
     public BattleManager BM;
 
     void Start()
@@ -19,11 +21,13 @@ public class TeamManager : MonoBehaviour
         {
             CHARS.Add(WorldCharacterManager.TeamCharacters[i]);
         }
-
+        /*
         for (int i = 0; i < ENEMIES.Count; i++)
         {
             ENEMIES[i] = Instantiate(ENEMIES[i]);
         }
+        */
+        ENEMIES = EnemyEncounterScript.EESEnemyTeam;
 
         BM.InitializeStart();
     }
