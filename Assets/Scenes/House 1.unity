@@ -139,6 +139,14 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -4.06
       objectReference: {fileID: 0}
+    - target: {fileID: 2635165113686487253, guid: 7fe540ae57a71b54e96ad56d3e9f7da7, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635165113686487253, guid: 7fe540ae57a71b54e96ad56d3e9f7da7, type: 3}
+      propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnOpenInventory
+      objectReference: {fileID: 0}
     - target: {fileID: 2840585546625848576, guid: 7fe540ae57a71b54e96ad56d3e9f7da7, type: 3}
       propertyPath: m_ClearFlags
       value: 2
@@ -478,7 +486,7 @@ Transform:
   m_GameObject: {fileID: 1031869733}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.01999638, y: -0.055409998, z: -10}
+  m_LocalPosition: {x: -0.02000932, y: -0.05540991, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

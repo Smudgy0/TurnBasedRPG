@@ -124,7 +124,7 @@ public class CombatUIManager : MonoBehaviour
                 }
             }
 
-        for(int i = 0; i < CHARITEMSELECTARRAY.Length; i++)
+        for(int i = 0; i < WorldCharacterManager.TeamCharacters.Count; i++)
         {
             CHARITEMSELECTARRAY[i].text = WorldCharacterManager.TeamCharacters[i].CharacterName;
         }

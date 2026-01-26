@@ -7,6 +7,7 @@ public class InventorySystem : MonoBehaviour
     [SerializeField] int[] AmountCarried;
 
     [SerializeField] Item EmptyItem;
+    [SerializeField] Item EmptyItem2;
 
     public int SelectedItemIndex;
 
@@ -21,6 +22,7 @@ public class InventorySystem : MonoBehaviour
 
     private void Start()
     {
+        AddItem(EmptyItem2, 1);
         SelectItem(0);
     }
 

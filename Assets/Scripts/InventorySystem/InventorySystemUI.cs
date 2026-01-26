@@ -17,7 +17,18 @@ public class InventorySystemUI : MonoBehaviour
     [SerializeField] TMP_Text SelectedItemDescription;
     [SerializeField] Image SelectedItemIcon;
 
+    private void Start()
+    {
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("inventory");
+        print(objs.Length);
 
+        if (objs.Length > 1)
+        {
+            Destroy(this.gameObject);
+        }
+
+        DontDestroyOnLoad(this.gameObject);
+    }
 
     public void OnOpenInventory(InputAction.CallbackContext context)
     {
