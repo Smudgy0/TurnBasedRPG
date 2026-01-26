@@ -21,21 +21,28 @@ public class WorldCharacterManager : MonoBehaviour
 
     public TeamManagerUIScript TMUI;
 
+    static bool IReadNewGame = false;
+
     void Awake()
     {
         Instance = this;
 
-        for (int i = 0; i < CharacterDataLog.Count; i++)
+        if (IReadNewGame == false)
         {
-            AllCharacters.Add(Instantiate(CharacterDataLog[i]));
-        }
-        UnusedTeamCharacters = AllCharacters;
+            for (int i = 0; i < CharacterDataLog.Count; i++)
+            {
+                AllCharacters.Add(Instantiate(CharacterDataLog[i]));
+            }
+            UnusedTeamCharacters = AllCharacters;
 
-        for (int i = 0; i < AllCharacters.Count; i++)
-        {
-            DebugAllCharacters.Add(AllCharacters[i]);
+            for (int i = 0; i < AllCharacters.Count; i++)
+            {
+                DebugAllCharacters.Add(AllCharacters[i]);
+            }
+            //FoundTeam();
         }
-        //FoundTeam();
+
+        IReadNewGame = true;
     }
 
     private void Update()

@@ -6,11 +6,11 @@ public class Characters : ScriptableObject
 {
     public string CharacterName;
 
-    public int CharacterHP;
-    public int CharacterMAXHP;
-    public int CharacterAttack;
-    public int CharacterDefense;
-    public int CharacterSpeed;
+    public float CharacterHP;
+    public float CharacterMAXHP;
+    public float CharacterAttack;
+    public float CharacterDefense;
+    public float CharacterSpeed;
     public Sprite CharacterSprite;
     public Sprite CharacterBattleSprite;
     public bool Allied;

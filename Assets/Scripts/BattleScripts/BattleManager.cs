@@ -30,12 +30,18 @@ public class BattleManager : MonoBehaviour
     public int AlliedDeaths;
     public int EnemyDeaths;
 
+    private int XPReward = 250;
+
     public int TempArrayMarker;
 
     public GameObject BATTLEENDBUTTON;
     public TMP_Text BATTLEENDTEXT;
+
+    private bool BattleEnded = false;
     public void InitializeStart()
     {
+        BattleEnded = false;
+
         BATTLEENDBUTTON.SetActive(false);
         AlliedDeaths = 0;
         EnemyDeaths = 0;
@@ -81,7 +87,7 @@ public class BattleManager : MonoBehaviour
         ShowTargets();
         BattleOrder[0].DisableDefence();
 
-        int TempDamage = 0;
+        float TempDamage = 0;
 
         if (TM.ENEMIES[TargetNum].Defending == false)
         {
@@ -149,9 +155,10 @@ public class BattleManager : MonoBehaviour
 
     public void HideNShowItemsToPickChar(int itemIndex)
     {
-        ItemToBeUsed = itemIndex;
         CUIM.PLAYERITEMBUTTONS.SetActive(!CUIM.PLAYERITEMBUTTONS.activeSelf);
         CUIM.PickCharItemButtons.SetActive(!CUIM.PickCharItemButtons.activeSelf);
+        if (itemIndex < 0) return;
+        ItemToBeUsed = itemIndex;
     }
 
     public void Flee()
@@ -231,6 +238,15 @@ public class BattleManager : MonoBehaviour
 
     public void ShowItems()
     {
+        for (int i = 0; i < CUIM.TripleItemButtons.Length; i++)
+        {
+            CUIM.TripleItemButtons[i].SetActive(false);
+        }
+
+        for (int i = 0; i < TM.CHARS.Count; i++)
+        {
+            CUIM.TripleItemButtons[i].SetActive(true);
+        }
 
         CUIM.InitializeItemButtons();
         CUIM.PLAYERITEMBUTTONS.SetActive(true);
@@ -244,6 +260,12 @@ public class BattleManager : MonoBehaviour
 
     public void HideItems()
     {
+        for (int i = 0; i < CUIM.TripleItemButtons.Length; i++)
+        {
+            CUIM.TripleItemButtons[i].SetActive(false);
+        }
+
+        Debug.Log("Read HideItemsFunction");
         CUIM.PLAYERITEMBUTTONS.SetActive(false);
         CUIM.PLAYERBUTTONS.SetActive(true);
 
@@ -342,29 +364,83 @@ public class BattleManager : MonoBehaviour
 
     void TeamConditionChecker()
     {
+        if (BattleEnded == false)
+        { 
+            if (AlliedDeaths >= TM.CHARS.Count)
+            {
+                BattleEnded = true;
 
-        if(AlliedDeaths >= TM.CHARS.Count)
-        {
-            BATTLEENDBUTTON.SetActive(true);
-            BATTLEENDTEXT.text = "You Lose!";
-        }
+                CUIM.EXPBoxGameObjectGroup.SetActive(true);
+                CUIM.EXPBoxDeathText.SetActive(true);
+                CUIM.EXPBoxVictoryGroup.SetActive(false);
 
-        if(EnemyDeaths >= TM.ENEMIES.Count)
-        {
-            BATTLEENDBUTTON.SetActive(true);
-            BATTLEENDTEXT.text = "You Win!";
+                //BATTLEENDBUTTON.SetActive(true);
+                //BATTLEENDTEXT.text = "You Lose!";
+
+                EndOfBattleTimer();
+            }
+
+            if (EnemyDeaths >= TM.ENEMIES.Count)
+            {
+                BattleEnded = true;
+
+                CUIM.EXPBoxGameObjectGroup.SetActive(true);
+                CUIM.EXPBoxDeathText.SetActive(false);
+                CUIM.EXPBoxVictoryGroup.SetActive(true);
+                for (int i = 0; i < CUIM.EXPInfoBoxCharLevelUpText.Length; i++)
+                {
+                    CUIM.EXPInfoBoxCharLevelUpGameObject[i].SetActive(false);
+                }
+
+                string expReward = $"XP Gained: {XPReward * TM.ENEMIES.Count}";
+                for (int i = 0; i < TM.CHARS.Count; i++)
+                {
+                    CUIM.EXPInfoBoxes[i].SetActive(true);
+                    CUIM.EXPInfoBoxCharNameText[i].text = TM.CHARS[i].CharacterName;
+                    CUIM.EXPInfoBoxCharEXPGainText[i].text = expReward;
+                    CUIM.EXPInfoBoxCharLevelUpText[i].text = $"Leveled Up To Level {TM.CHARS[i].CharacterLevel}, Stats Have Increased by 20%!";
+                    CUIM.EXPInfoBoxCharLevelUpGameObject[i].SetActive(true);
+
+                    Rewards();
+                    StartCoroutine(EndOfBattleTimer());
+                }
+
+                //BATTLEENDBUTTON.SetActive(true);
+                //BATTLEENDTEXT.text = "You Win!";
+            }
         }
     }
 
     public void RevertToMap() // button which appears after the player wins or loses a battle.
     {
-        Rewards();
         SceneManager.LoadScene(1);
     }
 
     public void Rewards()
     {
+        for (int i = 0; i < TM.CHARS.Count; i++)
+        {
+            TM.CHARS[i].CharacterEXP = TM.CHARS[i].CharacterEXP + (XPReward * TM.ENEMIES.Count);
 
+            if(TM.CHARS[i].CharacterEXP >= TM.CHARS[i].CharacterEXPRequirement) // Charater LevelUp stuff
+            {
+                TM.CHARS[i].CharacterLevel++;
+                LevelUp(i);
+
+                TM.CHARS[i].CharacterEXPRequirement = TM.CHARS[i].CharacterEXPRequirement * 2;
+                TM.CHARS[i].CharacterEXP = 0;
+            }
+        }
+    }
+
+    public void LevelUp(int CharArray)
+    {
+        TM.CHARS[CharArray].CharacterMAXHP = Mathf.Round(TM.CHARS[CharArray].CharacterMAXHP * 1.2f);
+        TM.CHARS[CharArray].CharacterHP = TM.CHARS[CharArray].CharacterMAXHP;
+
+        TM.CHARS[CharArray].CharacterAttack = Mathf.Round(TM.CHARS[CharArray].CharacterAttack * 1.2f);
+        TM.CHARS[CharArray].CharacterDefense = Mathf.Round(TM.CHARS[CharArray].CharacterDefense * 1.2f);
+        TM.CHARS[CharArray].CharacterSpeed = Mathf.Round(TM.CHARS[CharArray].CharacterSpeed * 1.2f);
     }
 
     public void CharacterDeath(int whichSlot, int currentPositionInBattleOrder, Characters character)
@@ -394,7 +470,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            int Tempdamage = 0;
+            float Tempdamage = 0;
 
             BattleOrder[0].DisableDefence();
             BattleOrder[0].Defending = false;
@@ -434,5 +510,11 @@ public class BattleManager : MonoBehaviour
         UpdateBattleOrder();
         DelayTimerActive = false;
 
+    }
+
+    private IEnumerator EndOfBattleTimer()
+    {
+        yield return new WaitForSeconds(5);
+        RevertToMap();
     }
 }

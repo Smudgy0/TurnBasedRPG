@@ -6,7 +6,6 @@ public class TeamManager : MonoBehaviour
     [SerializeField] public List<Allies> CHARS = new();
     [SerializeField] public List<Enemies> ENEMIES = new();
 
-    public EnemyEncounterScript EES;
 
     public BattleManager BM;
 

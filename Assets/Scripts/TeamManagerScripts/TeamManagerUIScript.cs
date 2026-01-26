@@ -38,6 +38,7 @@ public class TeamManagerUIScript : MonoBehaviour
     {
         //ReCheckCurrentTeam(); At the start of the game you have nobody on your team so only re-enable when adding saving
         ReCheckPossibleTeam();
+        ReCheckCurrentTeam();
     }
 
     /// <summary>

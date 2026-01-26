@@ -39,6 +39,20 @@ public class CombatUIManager : MonoBehaviour
     public GameObject[] BackGroundStuff;
     public GameObject PickCharItemButtons;
 
+    public GameObject[] TripleItemButtons;
+
+    // EndOfBattleEXPSheet
+    public GameObject[] EXPInfoBoxes;
+    public TMP_Text[] EXPInfoBoxCharNameText;
+    public TMP_Text[] EXPInfoBoxCharEXPGainText;
+    public TMP_Text[] EXPInfoBoxCharLevelUpText;
+    public GameObject[] EXPInfoBoxCharLevelUpGameObject;
+
+    public GameObject EXPBoxGameObjectGroup;
+    public GameObject EXPBoxDeathText;
+    public GameObject EXPBoxVictoryGroup;
+    //
+
     public GameObject COMBATTEXTINFOPARENTOBJECT;
     public TMP_Text COMBATTEXTINFO;
 
@@ -86,6 +100,8 @@ public class CombatUIManager : MonoBehaviour
         ITEMDESCTEXT.text = TempDesc;
         ITEMAMOUNTTEXT.text = TempAmount.ToString();
 
+        EXPBoxGameObjectGroup.SetActive(false);
+
         ItemUI.Clear();
 
         InitializeTURNUI();
@@ -112,13 +128,6 @@ public class CombatUIManager : MonoBehaviour
                     usedButton.ItemText.text = InventorySystem.Instance.GetInventory()[i].ItemName;
                     usedButton.ItemDesc = InventorySystem.Instance.GetInventory()[i].ItemDescription;
                     usedButton.ItemAmount = InventorySystem.Instance.GetItemQuantity()[i];
-
-                    /*
-                    if(usedButton.ItemText.text == "Lesser Potion")
-                    {
-                        usedButton.ItemHealingEffect = 500;
-                    }
-                    */
 
                     usedButton.MyIndexNum = i;
                 }

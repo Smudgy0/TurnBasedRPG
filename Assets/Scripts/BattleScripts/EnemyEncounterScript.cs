@@ -25,11 +25,6 @@ public class EnemyEncounterScript : MonoBehaviour
             Destroy(EESEnemyTeam);
         }
         EESEnemyTeam.Clear();
-
-        for (int i = 0; i < UnityEditorEnemyLibary.Count; i++)
-        {
-            EnemyLibary.Add(Instantiate(UnityEditorEnemyLibary[i]));
-        }
         EditorConverted = true;
     }
 
@@ -72,9 +67,9 @@ public class EnemyEncounterScript : MonoBehaviour
     void StartFight()
     {
         Debug.Log("Read StartFightFunction");
-        EESEnemyTeam.Add(EnemyLibary[EnemySlot1]);
-        EESEnemyTeam.Add(EnemyLibary[EnemySlot2]);
-        EESEnemyTeam.Add(EnemyLibary[EnemySlot3]);
+        EESEnemyTeam.Add(Instantiate(UnityEditorEnemyLibary[EnemySlot1]));
+        EESEnemyTeam.Add(Instantiate(UnityEditorEnemyLibary[EnemySlot2]));
+        EESEnemyTeam.Add(Instantiate(UnityEditorEnemyLibary[EnemySlot3]));
 
         BT.TriggerFight();
     }
