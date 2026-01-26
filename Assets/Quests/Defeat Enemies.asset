@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1fb3748235bd12148995f8fa180d096d, type: 3}
-  m_Name: DefeatEnemies
+  m_Name: Defeat Enemies
   m_EditorClassIdentifier: 
   questID: De3d4825f-a184-434f-bbe9-e73481cb8ae8
-  questName: DefeatEnemies
+  questName: Defeat Enemies
   description: Enemies are terrorising the villiage and must be stopped
   objectives:
   - objectiveID: 1
-    description: Defeat 5 enemies
+    description: Defeat 5 Slimes
     type: 1
     requiredAmount: 5
     currentAmount: 0
