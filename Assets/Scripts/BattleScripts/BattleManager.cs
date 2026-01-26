@@ -114,6 +114,25 @@ public class BattleManager : MonoBehaviour
             CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {TempDamage} damage to {TM.ENEMIES[TargetNum].CharacterName}!";
         }
 
+        // Kill a character if their health is 0 or lower
+        for (int i = 0; i < charactersInBattle.Length; i++)
+        {
+            if (charactersInBattle[i].CharacterHP <= 0)
+            {
+                for (int j = 0; j < BattleOrder.Count; j++)
+                {
+                    if (charactersInBattle[i] == BattleOrder[j])
+                    {
+                        EnemyDeaths++;
+                        CharacterDeath(i, j, charactersInBattle[i]);
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+            }
+        }
 
         UpdateBattleOrder();
     }
@@ -328,29 +347,6 @@ public class BattleManager : MonoBehaviour
             UpdateBattleOrder();
         }
 
-        // Kill a character if their health is 0 or lower
-        for (int i = 0; i < charactersInBattle.Length; i++)
-        {
-            if (charactersInBattle[i].CharacterHP <= 0)
-            {
-                for (int j = 0; j < BattleOrder.Count; j++)
-                {
-                    if (charactersInBattle[i] == BattleOrder[j])
-                    {
-                        if(charactersInBattle[i].Allied == true)
-                        {
-                            AlliedDeaths++;
-                        }
-                        else if(charactersInBattle[i].Allied == false)
-                        {
-                            EnemyDeaths++;
-                        }
-                        CharacterDeath(i, j, charactersInBattle[i]);
-                    }
-                }
-            }
-        }
-
         TeamConditionChecker();
 
         for (int i = 0; i < TM.ENEMIES.Count; i++)
@@ -445,6 +441,10 @@ public class BattleManager : MonoBehaviour
 
     public void CharacterDeath(int whichSlot, int currentPositionInBattleOrder, Characters character)
     {
+        if (!charactersInBattle[whichSlot].Allied)
+        {
+            QuestController.instance.TryProgressKillQuest(charactersInBattle[whichSlot].characterID);
+        }
         RemoveFromBattleOrder(currentPositionInBattleOrder);
         CUIM.UIMUpdateCharacterSprites(whichSlot, character);
     }
@@ -456,12 +456,11 @@ public class BattleManager : MonoBehaviour
 
     private IEnumerator EnemyTurn()
     {
-        yield return new WaitForSeconds(3);
-
+        yield return new WaitForSeconds(2);
 
         EnemyActionPicker = UnityEngine.Random.Range(0,2);
 
-        if(EnemyActionPicker == 1) // enemy defends
+        if (EnemyActionPicker == 1) // enemy defends
         {
             BattleOrder[0].Defending = true;
             CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} Defends!";
@@ -474,13 +473,13 @@ public class BattleManager : MonoBehaviour
 
             BattleOrder[0].DisableDefence();
             BattleOrder[0].Defending = false;
-            EnemyTargetPicker = Random.Range(0,WorldCharacterManager.TeamCharacters.Count);
+            EnemyTargetPicker = Random.Range(0, WorldCharacterManager.TeamCharacters.Count);
 
-            if(TM.CHARS[EnemyTargetPicker].Defending == false) // if player does not defend, their characters defence is not taken into account
+            if (TM.CHARS[EnemyTargetPicker].Defending == false) // if player does not defend, their characters defence is not taken into account
             {
                 Tempdamage = BattleOrder[0].CharacterAttack;
 
-                if(Tempdamage < 0)
+                if (Tempdamage < 0)
                 {
                     Tempdamage = 0;
                 }
@@ -488,7 +487,7 @@ public class BattleManager : MonoBehaviour
                 TM.CHARS[EnemyTargetPicker].CharacterHP = TM.CHARS[EnemyTargetPicker].CharacterHP - Tempdamage;
                 CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {Tempdamage} damage to {TM.CHARS[EnemyTargetPicker].CharacterName}!";
             }
-            else if(TM.CHARS[EnemyTargetPicker].Defending == true) // if player defends, their characters defence is taken into account
+            else if (TM.CHARS[EnemyTargetPicker].Defending == true) // if player defends, their characters defence is taken into account
             {
                 Tempdamage = BattleOrder[0].CharacterAttack - TM.CHARS[EnemyTargetPicker].CharacterDefense;
 
@@ -503,6 +502,23 @@ public class BattleManager : MonoBehaviour
 
                 TM.CHARS[EnemyTargetPicker].CharacterHP -= Tempdamage;
                 CUIM.COMBATTEXTINFO.text = $"{BattleOrder[0].CharacterName} does {Tempdamage} damage to {TM.CHARS[EnemyTargetPicker].CharacterName}!";
+            }
+
+            // Kill a character if their health is 0 or lower
+            if (TM.CHARS[EnemyTargetPicker].CharacterHP <= 0)
+            {
+                for (int i = 0; i < BattleOrder.Count; i++)
+                {
+                    if (BattleOrder[i] == TM.CHARS[EnemyTargetPicker]) 
+                    {
+                        AlliedDeaths++;
+                        CharacterDeath(EnemyTargetPicker, i, TM.CHARS[EnemyTargetPicker]); 
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
             }
         }
 

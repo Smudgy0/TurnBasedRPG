@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827e866c28f72e64baf714ad385592aa, type: 3}
   m_Name: En_2
   m_EditorClassIdentifier: Assembly-CSharp::Enemies
+  characterID: 2
   CharacterName: Stronger Slime
   CharacterHP: 678
   CharacterMAXHP: 678

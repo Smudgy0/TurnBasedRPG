@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 827e866c28f72e64baf714ad385592aa, type: 3}
   m_Name: En_1
   m_EditorClassIdentifier: Assembly-CSharp::Enemies
+  characterID: 1
   CharacterName: Slime
   CharacterHP: 492
   CharacterMAXHP: 500
@@ -21,5 +22,6 @@ MonoBehaviour:
   CharacterSprite: {fileID: 21300000, guid: e2add7e5e52f0b447855cfcd5f1153e0, type: 3}
   CharacterBattleSprite: {fileID: 0}
   Allied: 0
+  Dead: 0
   Status: 0
   Defending: 0

@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class Characters : ScriptableObject
 {
+    public int characterID;
     public string CharacterName;
 
     public float CharacterHP;

@@ -206,7 +206,7 @@ GameObject:
   - component: {fileID: 8453758}
   - component: {fileID: 8453757}
   m_Layer: 5
-  m_Name: CHARACTER_XP_GAIN 1
+  m_Name: CHARACTER_XP_GAIN1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1224,7 +1224,7 @@ GameObject:
   - component: {fileID: 181588038}
   - component: {fileID: 181588037}
   m_Layer: 5
-  m_Name: CHARACTER_LEVELUP_MESSAGE 1
+  m_Name: CHARACTER_LEVELUP_MESSAGE1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2295,7 +2295,7 @@ GameObject:
   - component: {fileID: 371232460}
   - component: {fileID: 371232459}
   m_Layer: 5
-  m_Name: CHARACTER_NAME
+  m_Name: CHARACTER_NAME0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2705,7 +2705,7 @@ GameObject:
   - component: {fileID: 465407478}
   - component: {fileID: 465407477}
   m_Layer: 5
-  m_Name: CHARACTER_NAME 2
+  m_Name: CHARACTER_NAME2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2977,7 +2977,7 @@ GameObject:
   - component: {fileID: 492494309}
   - component: {fileID: 492494308}
   m_Layer: 5
-  m_Name: CHARACTER_LEVELUP_MESSAGE 2
+  m_Name: CHARACTER_LEVELUP_MESSAGE2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4807,7 +4807,7 @@ GameObject:
   - component: {fileID: 748998536}
   - component: {fileID: 748998535}
   m_Layer: 5
-  m_Name: CHARACTER_XP_GAIN 2
+  m_Name: CHARACTER_XP_GAIN2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5135,9 +5135,9 @@ MonoBehaviour:
   - {fileID: 8453757}
   - {fileID: 748998535}
   EXPInfoBoxCharLevelUpText:
-  - {fileID: 1340302246}
-  - {fileID: 181588035}
-  - {fileID: 492494306}
+  - {fileID: 1340302248}
+  - {fileID: 181588037}
+  - {fileID: 492494308}
   EXPInfoBoxCharLevelUpGameObject:
   - {fileID: 1340302246}
   - {fileID: 181588035}
@@ -6195,7 +6195,7 @@ GameObject:
   - component: {fileID: 1217871626}
   - component: {fileID: 1217871625}
   m_Layer: 5
-  m_Name: CHARACTER_XP_GAIN
+  m_Name: CHARACTER_XP_GAIN0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6713,7 +6713,7 @@ GameObject:
   - component: {fileID: 1340302249}
   - component: {fileID: 1340302248}
   m_Layer: 5
-  m_Name: CHARACTER_LEVELUP_MESSAGE
+  m_Name: CHARACTER_LEVELUP_MESSAGE0
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10106,7 +10106,7 @@ GameObject:
   - component: {fileID: 1998928272}
   - component: {fileID: 1998928271}
   m_Layer: 5
-  m_Name: CHARACTER_NAME 1
+  m_Name: CHARACTER_NAME1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
