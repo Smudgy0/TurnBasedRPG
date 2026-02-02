@@ -30,13 +30,9 @@ public class InventorySystemUI : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void OnOpenInventory(InputAction.CallbackContext context)
+    public void OpenInventory()
     {
-        if (context.performed)
-        {
-            ResetInventoryUI();
-            inventoryMenu.SetActive(!inventoryMenu.activeSelf);
-        }
+        ResetInventoryUI();
     }
 
     public void SetSelectedItemUI(string _SelectedItemName,string _SelectedItemDescription, Sprite ItemIcon)

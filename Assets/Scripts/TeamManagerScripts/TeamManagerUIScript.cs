@@ -88,13 +88,7 @@ public class TeamManagerUIScript : MonoBehaviour
         }
     }
 
-    /// <summary>
-    /// Hides the team selection menu.
-    /// </summary>
-    public void ToggleCharacterList()
-    {
-        TeamSelectMenu.SetActive(!TeamSelectMenu.activeSelf);
-    }
+
 
     /// <summary>
     /// sets UI in a box (ArrayVal number is which box in the list) it sets to null
@@ -109,12 +103,6 @@ public class TeamManagerUIScript : MonoBehaviour
         //ReCheckCurrentTeam();
     }
 
-    public void ManageTeamMenu(InputAction.CallbackContext context)
-    {
-        //EventSystem.current.SetSelectedGameObject(UnusedTeamUI[0].gameObject);
-        Debug.Log("ManageTeamMenu Read");
-        ToggleCharacterList();
-    }
 
     private void Update()
     {

@@ -18,14 +18,14 @@ public class QuestController : MonoBehaviour
         if (instance == null) instance = this;
         else Destroy(gameObject);
 
-        GameObject[] objs = GameObject.FindGameObjectsWithTag("QuestManager");
+        /*GameObject[] objs = GameObject.FindGameObjectsWithTag("QuestManager");
 
         if (objs.Length > 1)
         {
             Destroy(QuestDoNotDestroyOnLoad);
         }
 
-        DontDestroyOnLoad(QuestDoNotDestroyOnLoad);
+        DontDestroyOnLoad(QuestDoNotDestroyOnLoad);*/
 
         questUI = FindAnyObjectByType<QuestUI>();
     }
