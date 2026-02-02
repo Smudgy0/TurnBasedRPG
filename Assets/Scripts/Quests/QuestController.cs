@@ -13,7 +13,6 @@ public class QuestController : MonoBehaviour
 
     [SerializeField] GameObject QuestDoNotDestroyOnLoad;
 
-    [System.Obsolete]
     private void Awake()
     {
         if (instance == null) instance = this;
@@ -28,7 +27,7 @@ public class QuestController : MonoBehaviour
 
         DontDestroyOnLoad(QuestDoNotDestroyOnLoad);
 
-        questUI = FindObjectOfType<QuestUI>();
+        questUI = FindAnyObjectByType<QuestUI>();
     }
 
     public void AcceptQuest(Quests quest)
@@ -51,7 +50,7 @@ public class QuestController : MonoBehaviour
                 if (questObjective.type != Quests.ObjectiveType.DefeatEnemy) continue;
                 if (!int.TryParse(questObjective.objectiveID, out int enemyID)) continue;
                 if (killedEnemyID != enemyID) continue;
-                questObjective.currentAmount = Mathf.Clamp(questObjective.currentAmount++, 0, questObjective.requiredAmount);
+                questObjective.currentAmount = Mathf.Clamp(++questObjective.currentAmount, 0, questObjective.requiredAmount);
             }
         }
         questUI?.UpdateQuestUI();

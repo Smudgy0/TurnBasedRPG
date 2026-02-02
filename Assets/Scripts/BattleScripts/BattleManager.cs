@@ -443,6 +443,7 @@ public class BattleManager : MonoBehaviour
     {
         if (!charactersInBattle[whichSlot].Allied)
         {
+            Debug.Log("1 ENEMY DIES");
             QuestController.instance.TryProgressKillQuest(charactersInBattle[whichSlot].characterID);
         }
         RemoveFromBattleOrder(currentPositionInBattleOrder);

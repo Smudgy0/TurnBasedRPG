@@ -6,6 +6,8 @@ public class PlayerMovement : MonoBehaviour
     Vector2 moveInput;
     [SerializeField] private float speed;
 
+    [SerializeField] private PlayerInput playerInput;
+
     public static Vector2 sceneStartPos;
 
     Rigidbody2D rb;
@@ -13,10 +15,12 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
+        playerInput = GetComponent<PlayerInput>();
     }
 
     private void Start()
     {
+        Debug.Log(playerInput.actionEvents[0].actionName);
         SetPlayerPosition();
     }
 
