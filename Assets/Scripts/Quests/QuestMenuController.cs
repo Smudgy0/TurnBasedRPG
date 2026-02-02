@@ -10,11 +10,8 @@ public class QuestMenuController : MonoBehaviour
         MenuCanvas.SetActive(false);
     }
 
-    public void QuestMenu(InputAction.CallbackContext context)
+    public void ToggleQuestMenu()
     {
-        if (context.performed)
-        {
-            MenuCanvas.SetActive(!MenuCanvas.activeSelf);
-        }
+        MenuCanvas.SetActive(!MenuCanvas.activeSelf);
     }
 }

@@ -2365,17 +2365,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &684001472 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 2119689880342097484, guid: 01594acca1c4f844ba5371f248fc86a9, type: 3}
-  m_PrefabInstance: {fileID: 1368989378}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2f979295e56281c4ca81e2c2fbb51208, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &694098580
 GameObject:
   m_ObjectHideFlags: 0
@@ -2802,6 +2791,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &938682650 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8015197511217363098, guid: 7fe540ae57a71b54e96ad56d3e9f7da7, type: 3}
+  m_PrefabInstance: {fileID: 9138865883162206530}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 977e8d8b938d04448a4f452f2ca04f23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1085242816
 GameObject:
   m_ObjectHideFlags: 0
@@ -3396,6 +3396,10 @@ PrefabInstance:
       propertyPath: QuestDoNotDestroyOnLoad
       value: 
       objectReference: {fileID: 1404505081}
+    - target: {fileID: 2636356361934204772, guid: 01594acca1c4f844ba5371f248fc86a9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3615976568687150210, guid: 01594acca1c4f844ba5371f248fc86a9, type: 3}
       propertyPath: m_MatchWidthOrHeight
       value: 0
@@ -4699,11 +4703,19 @@ PrefabInstance:
     - target: {fileID: 2635165113686487253, guid: 7fe540ae57a71b54e96ad56d3e9f7da7, type: 3}
       propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 684001472}
+      objectReference: {fileID: 938682650}
     - target: {fileID: 2635165113686487253, guid: 7fe540ae57a71b54e96ad56d3e9f7da7, type: 3}
       propertyPath: m_ActionEvents.Array.data[14].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1446458602}
+    - target: {fileID: 2635165113686487253, guid: 7fe540ae57a71b54e96ad56d3e9f7da7, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: QuestMenu
+      objectReference: {fileID: 0}
+    - target: {fileID: 2635165113686487253, guid: 7fe540ae57a71b54e96ad56d3e9f7da7, type: 3}
+      propertyPath: m_ActionEvents.Array.data[13].m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: PlayerMovement, Assembly-CSharp
+      objectReference: {fileID: 0}
     - target: {fileID: 4296485974400931902, guid: 7fe540ae57a71b54e96ad56d3e9f7da7, type: 3}
       propertyPath: m_Name
       value: Player Prefab
