@@ -34,6 +34,12 @@ public class WorldCharacterManager : MonoBehaviour
                 AllCharacters.Add(Instantiate(CharacterDataLog[i]));
             }
             UnusedTeamCharacters = AllCharacters;
+            TeamCharacters.Add(UnusedTeamCharacters[0]);
+            TeamCharacters.Add(UnusedTeamCharacters[1]);
+            TeamCharacters.Add(UnusedTeamCharacters[2]);
+            UnusedTeamCharacters.RemoveAt(0);
+            UnusedTeamCharacters.RemoveAt(1);
+            UnusedTeamCharacters.RemoveAt(2);
 
             for (int i = 0; i < AllCharacters.Count; i++)
             {
@@ -56,11 +62,12 @@ public class WorldCharacterManager : MonoBehaviour
         TeamCharacters.Add(AllCharacters[0]);
     }
 
-    public void AddToTeam(int ArrayVal)
+    // this function is ran to add a member to the team
+    public void AddToTeam(int ArrayVal) 
     {
         if(TeamCharacters.Count < 3)
         {
-            if (TeamCharacters.Contains(AllCharacters[ArrayVal]))
+            if (TeamCharacters.Contains(AllCharacters[ArrayVal])) // makes sure the character isn't already on the team
             {
                 Debug.Log("Already have team member on my team!");
                 return;
@@ -68,17 +75,17 @@ public class WorldCharacterManager : MonoBehaviour
             Debug.Log("Added to team");
             TeamCharacters.Add(UnusedTeamCharacters[ArrayVal]);
             UnusedTeamCharacters.RemoveAt(ArrayVal);
-            TMUI.ReCheckCurrentTeam(); // this is the problem
+            TMUI.ReCheckCurrentTeam(); // reloads the current team UI
             TMUI.ReCheckPossibleTeam(); // reloads the buttons on the character selection
         }
         else {return;}
     }
 
-    public void RemoveFromTeam(int ArrayVal)
+    public void RemoveFromTeam(int ArrayVal) // removes the selected character from the team
     {
         UnusedTeamCharacters.Add(TeamCharacters[ArrayVal]);
         TeamCharacters.RemoveAt(ArrayVal);
         TMUI.ReCheckPossibleTeam(); // reloads the buttons on the character selection
-        TMUI.ReCheckCurrentTeam(); // this is the problem
+        TMUI.ReCheckCurrentTeam(); // reloads the current team UI
     }
 }

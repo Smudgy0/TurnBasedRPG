@@ -20,7 +20,7 @@ public class EnemyEncounterScript : MonoBehaviour
 
     private void Start()
     {
-        foreach (Enemies EESEnemyTeam in EESEnemyTeam)
+        foreach (Enemies EESEnemyTeam in EESEnemyTeam) // resets enemy list
         {
             Destroy(EESEnemyTeam);
         }
@@ -28,7 +28,7 @@ public class EnemyEncounterScript : MonoBehaviour
         EditorConverted = true;
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision) // checks if player goes into biome
     {
         if (collision.tag == "GrassLands")
         {
@@ -36,7 +36,7 @@ public class EnemyEncounterScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+    private void OnTriggerExit2D(Collider2D collision) // checks if player leaves biome
     {
         if (collision.tag == "GrassLands")
         {
@@ -47,7 +47,7 @@ public class EnemyEncounterScript : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (EnemyEcounterBool == true) 
+        if (EnemyEcounterBool == true) // checks if player can encounter enemies
         { 
             RandomEncounterNum = Random.Range(0, 1000000);
             EnemySlot1 = Random.Range(0, EnemyLibary.Count);
@@ -56,7 +56,7 @@ public class EnemyEncounterScript : MonoBehaviour
 
             Debug.Log("Read RandomEncounterNum and EnemySelect");
 
-            if (RandomEncounterNum > 999000)
+            if (RandomEncounterNum > 999000) // if the random number is right, battle is started
             {
                 Debug.Log("Read StartFightFunction Trigger");
                 StartFight();
@@ -64,7 +64,7 @@ public class EnemyEncounterScript : MonoBehaviour
         }
     }
 
-    void StartFight()
+    void StartFight() // starts the fight and choses the random enemies
     {
         Debug.Log("Read StartFightFunction");
         EESEnemyTeam.Add(Instantiate(UnityEditorEnemyLibary[EnemySlot1]));

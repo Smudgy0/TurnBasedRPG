@@ -443,11 +443,10 @@ public class BattleManager : MonoBehaviour
 
             if(TM.CHARS[i].CharacterEXP >= TM.CHARS[i].CharacterEXPRequirement) // Charater LevelUp stuff
             {
-                TM.CHARS[i].CharacterLevel++;
                 LevelUp(i);
 
-                TM.CHARS[i].CharacterEXPRequirement = TM.CHARS[i].CharacterEXPRequirement * 2;
                 TM.CHARS[i].CharacterEXP = 0;
+                TM.CHARS[i].CharacterEXPRequirement = TM.CHARS[i].CharacterEXPRequirement * 2;
             }
         }
     }
@@ -455,6 +454,8 @@ public class BattleManager : MonoBehaviour
     // if the player has enough xp to level up their stats go up by 20%
     public void LevelUp(int CharArray)
     {
+        TM.CHARS[CharArray].CharacterLevel++;
+
         TM.CHARS[CharArray].CharacterMAXHP = Mathf.Round(TM.CHARS[CharArray].CharacterMAXHP * 1.2f);
         TM.CHARS[CharArray].CharacterHP = TM.CHARS[CharArray].CharacterMAXHP;
 
