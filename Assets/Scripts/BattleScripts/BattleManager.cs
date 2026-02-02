@@ -38,6 +38,8 @@ public class BattleManager : MonoBehaviour
     public TMP_Text BATTLEENDTEXT;
 
     private bool BattleEnded = false;
+
+    // Initializes the battle order to see who goes first and it also resets values to ensure that the player can do multiple battles
     public void InitializeStart()
     {
         BattleEnded = false;
@@ -81,6 +83,7 @@ public class BattleManager : MonoBehaviour
         //starting = false;
     }
 
+    // deals damage to the selected enemy
     public void TargetNumber(int TargetNum)
     {
         HideTargets();
@@ -89,8 +92,10 @@ public class BattleManager : MonoBehaviour
 
         float TempDamage = 0;
 
+        // checks if enemy is defending or not to add the defence stat to the calculation
         if (TM.ENEMIES[TargetNum].Defending == false)
         {
+            // calculation is run as normal as target is not defending
             TempDamage = BattleOrder[0].CharacterAttack;
 
             if(TempDamage < 0)
@@ -103,6 +108,7 @@ public class BattleManager : MonoBehaviour
         }
         else if(TM.ENEMIES[TargetNum].Defending == true)
         {
+            // checks what the new damage is when character attack is reduced by the targeted characters defense
             TempDamage = BattleOrder[0].CharacterAttack - TM.ENEMIES[TargetNum].CharacterDefense;
 
             if (TempDamage < 0)
@@ -137,6 +143,7 @@ public class BattleManager : MonoBehaviour
         UpdateBattleOrder();
     }
 
+    // when chosen the character will have their defend value set to true, reduced damage from enemies
     public void DefendButton()
     {
         BattleOrder[0].Defend();
@@ -144,6 +151,7 @@ public class BattleManager : MonoBehaviour
         UpdateBattleOrder();
     }
 
+    // gets the value from the consumable to run the HealChar function
     public void HealCharButton(int CharChosen)
     {
         HealChar(InventorySystem.Instance.GetInventory()[ItemToBeUsed].EffectStrength, CharChosen);
@@ -153,6 +161,7 @@ public class BattleManager : MonoBehaviour
         ItemToBeUsed = 0;
     }
 
+    // uses a consumable to heal the character chosen
     public void HealChar(int HealAmount, int CharChosen) // uses item to heal character
     {
         TM.CHARS[CharChosen].CharacterHP += HealAmount;
@@ -172,6 +181,8 @@ public class BattleManager : MonoBehaviour
         UpdateBattleOrder();
     }
 
+    // hides consumables when player picks which one to use to let them select a character or if they go back from character selection,
+    // it goes back to pick a different item.
     public void HideNShowItemsToPickChar(int itemIndex)
     {
         CUIM.PLAYERITEMBUTTONS.SetActive(!CUIM.PLAYERITEMBUTTONS.activeSelf);
@@ -180,6 +191,7 @@ public class BattleManager : MonoBehaviour
         ItemToBeUsed = itemIndex;
     }
 
+    // runs a random number to see if the player flees the battle
     public void Flee()
     {
         BattleOrder[0].DisableDefence();
@@ -200,6 +212,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    // sets the character or enemy in the front of the list to the back when an action is performed
     void UpdateBattleOrder()
     {
         Characters tempChar = BattleOrder[0];
@@ -207,6 +220,7 @@ public class BattleManager : MonoBehaviour
         BattleOrder.Add(tempChar);
     }
 
+    // re applies sprites when a ally or enemy peformes a action and the game moves onto the next turn
     void CHECKTURNUI()
     {
         //Debug.Log("CHECKTURNUI");
@@ -227,6 +241,7 @@ public class BattleManager : MonoBehaviour
         */
     }
 
+    // shows the enemy targets and hides the player action buttons
     public void ShowTargets()
     {
         //Debug.Log("ShowTargets");
@@ -241,6 +256,7 @@ public class BattleManager : MonoBehaviour
         //MenuActive = false;
     }
 
+    // hides the enemy targets and goes back to the player action buttons
     public void HideTargets()
     {
         //Debug.Log("HideTargets");
@@ -255,6 +271,7 @@ public class BattleManager : MonoBehaviour
         //MenuActive = true;
     }
 
+    // tells the UI manager to show the items and hide the attack, defend etc buttons
     public void ShowItems()
     {
         for (int i = 0; i < CUIM.TripleItemButtons.Length; i++)
@@ -277,6 +294,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    // tells the UI manager to hide the items and go back to the attack, defend etc buttons
     public void HideItems()
     {
         for (int i = 0; i < CUIM.TripleItemButtons.Length; i++)
@@ -294,6 +312,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    // checks which enemies are still alive for the player to target after clicking the attack button
     void InitializeTargetOptions()
     {
         //Debug.Log("InitializeTargetOptions");
@@ -306,6 +325,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    // sorts which ally or enemy goes first, second, third etc
     void SortSideOrders()
     {
         // Start of ordering
@@ -358,6 +378,8 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+
+    // this function checks if either side has lost all its team members and after the check it will see if the player has won or loss
     void TeamConditionChecker()
     {
         if (BattleEnded == false)
@@ -412,6 +434,7 @@ public class BattleManager : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+    // when the player wins a battle they will be given XP for their level up's based on the amount of enemies
     public void Rewards()
     {
         for (int i = 0; i < TM.CHARS.Count; i++)
@@ -429,6 +452,7 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    // if the player has enough xp to level up their stats go up by 20%
     public void LevelUp(int CharArray)
     {
         TM.CHARS[CharArray].CharacterMAXHP = Mathf.Round(TM.CHARS[CharArray].CharacterMAXHP * 1.2f);
@@ -439,6 +463,7 @@ public class BattleManager : MonoBehaviour
         TM.CHARS[CharArray].CharacterSpeed = Mathf.Round(TM.CHARS[CharArray].CharacterSpeed * 1.2f);
     }
 
+    // if a character dies they are removed from the combat system
     public void CharacterDeath(int whichSlot, int currentPositionInBattleOrder, Characters character)
     {
         if (!charactersInBattle[whichSlot].Allied)
@@ -450,11 +475,13 @@ public class BattleManager : MonoBehaviour
         CUIM.UIMUpdateCharacterSprites(whichSlot, character);
     }
 
+    // once a character dies this function remove them from the battle order
     void RemoveFromBattleOrder(int whichSlot)
     {
         BattleOrder.RemoveAt(whichSlot);
     }
 
+    // enemy decides what it wants to do, attack or defend
     private IEnumerator EnemyTurn()
     {
         yield return new WaitForSeconds(2);
@@ -529,6 +556,7 @@ public class BattleManager : MonoBehaviour
 
     }
 
+    // runs a timer before the battle ends
     private IEnumerator EndOfBattleTimer()
     {
         yield return new WaitForSeconds(5);
